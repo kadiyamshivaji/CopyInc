@@ -24,7 +24,7 @@ The **CopyInc** Chrome extension, a tool designed to streamline the process of s
 
 5. Select the extension button from the Chrome Browser Window. 
 
-6.Pin the CopyInc extension from the list of extensions. 
+6. Pin the CopyInc extension from the list of extensions. 
 
 7. After refreshing the Interaction Portal tab, the active Pega icon will be visible.
 
