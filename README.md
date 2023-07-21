@@ -5,23 +5,30 @@ The **CopyInc** Chrome extension, a tool designed to streamline the process of s
 <br>
 ---
 
+# Download the source code
+1. Click on the CopyInc.zip file
+2. and then Click on the Download Raw file button 
+
+<br>
+---
+
 # Installing and Running the Application
 
-1. To usage the CopyInc Please download the file CopyInc.Zip 
+1. Extract the contents of the source folder 
 
-2. Extract the contents of the source folder.  
+2. Navigate to the page for Chrome extensions in Chrome Browser Window. 
 
-3. Navigate to the page for Chrome extensions in Chrome Browser Window. 
+3. Press the "Load unpacked" button. 
 
-4. Press the "Load unpacked" button. 
+4. Locate and select the CopyInc source folder within the CopyInc folder. 
 
-5. Choose the CopyInc source folder. 
+5. Select the extension button from the Chrome Browser Window. 
 
-6. Select the extension button from the Chrome Browser Window. 
+6.Pin the CopyInc extension from the list of extensions. 
 
-7. Pin the CopyInc extension from the list of extensions. 
+7. After refreshing the Interaction Portal tab, the active Pega icon will be visible.
 
-8. After refreshing the Interaction Portal tab, the active Pega icon will be visible. 
+
 
 <br>
 
