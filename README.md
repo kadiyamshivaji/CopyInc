@@ -1,9 +1,3 @@
-<p align="center"><img width=60% src="assets/icons/128-pea-app.png">
-
-<hr />
-
-<h1 style="color: red">IMPORTANT – PLEASE READ!</h1>
-
 # CopyInc
 
 The **CopyInc** Chrome extension, a tool designed to streamline the process of sharing INC numbers effortlessly. With a single click, this extension empowers you to quickly and conveniently copy the INC number, eliminating the need for manual entry and saving you valuable time.
