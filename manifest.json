@@ -5,7 +5,8 @@
   "description": "Copies the active INC number",
   "host_permissions": ["<all_urls>"],
   "action": {
-    "default_title": "CopyInc"
+    "default_title": "CopyInc",
+    "default_popup": "/popups/pega-app.html"
   },
   "icons": {
     "16": "/assets/icons/16-disabled.png",
