@@ -11,7 +11,7 @@ function setIconAndPopup(buildType, tabId) {
   if(buildType === 'disabled' ){
     chrome.action.setPopup({
       tabId: tabId,
-      popup: "/popups/" + buildType + ".html",
+      popup: "/html/popups/" + buildType + ".html",
     });
   }
  
@@ -29,7 +29,7 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
     if(sender.url.includes('pegasupport.pega.com/prweb')){
       setIconAndPopup('pega-app', sender.tab.id);
   } else {
-    setIconAndPopup("disabled", sender.tab.id);
+    setIconAndPopup("pega-app", sender.tab.id);
   }
   }
   sendResponse({ tab: sender.tab.id });

@@ -3,10 +3,11 @@
   "manifest_version": 3,
   "version": "0.1",
   "description": "Copies the active INC number",
+  "options_page": "/html/options/options.html",
   "host_permissions": ["<all_urls>"],
   "action": {
     "default_title": "CopyInc",
-    "default_popup": "/popups/pega-app.html"
+    "default_popup": "/html/popups/pega-app.html"
   },
   "icons": {
     "16": "/assets/icons/16-disabled.png",
@@ -16,7 +17,8 @@
   "permissions": [
     "tabs",
     "scripting",
-    "clipboardWrite"
+    "clipboardWrite",
+    "storage"
   ],
   "background": {
     "service_worker": "background.js"
