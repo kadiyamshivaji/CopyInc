@@ -15,7 +15,8 @@
         background-color: #ddd;
         padding: 10px;
         margin-bottom: 5px;
-        cursor: move;
+        cursor: pointer;
+        width: 15%;
       }
     </style>
     <title>Extension Options</title>
@@ -25,70 +26,14 @@
     <br />
     <span>----</span>
     <br />
-    <ul
-      id="dragList"
-      class="drag-list"
-    >
-      <li
-        class="drag-item"
-        draggable="true"
-      >
-        <input
-          type="checkbox"
-          id="incNum"
-          value="incNum"
-        />
-        <label for="vehicle1"> Incident Number</label>
-      </li>
-      <li
-        class="drag-item"
-        draggable="true"
-      >
-        <input
-          type="checkbox"
-          id="incNum"
-          value="incNum"
-        />
-        <label for="vehicle1"> Account</label>
-      </li>
-      <li
-        class="drag-item"
-        draggable="true"
-      >
-        <input
-          type="checkbox"
-          id="severity"
-          value="severity"
-        />
-        <label for="vehicle2"> severity and Type</label>
-      </li>
-      <li
-        class="drag-item"
-        draggable="true"
-      >
-        <input
-          type="checkbox"
-          id="description"
-          value="description"
-        />
-        <label for="vehicle3">Description</label>
-      </li>
-      <li
-        class="drag-item"
-        draggable="true"
-      >
-        <input
-          type="checkbox"
-          id="wifi"
-          value="wifi"
-        />
-        <label for="vehicle3">WIFI</label>
-      </li>
-    </ul>
+    <div
+      class="button-list"
+      id="buttonList"
+    ></div>
 
     <br /><br />
     <div id="opions_placeholder">
-      Sev3 || INC-269859 || Bank of America || Issue with Report Definition
+      IncidentNo || Severity || Description || AccountName || Wifi
     </div>
     <br /><br />
     <button

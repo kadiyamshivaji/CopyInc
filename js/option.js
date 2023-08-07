@@ -1,70 +1,96 @@
-       document.getElementById("submit").addEventListener("click", function () {
-            // const incNum = document.getElementById('incNum').checked;
-            // const severity = document.getElementById('severity').checked;
-            // const description = document.getElementById('description').checked;
-            // const wifi = document.getElementById('wifi').checked;
+document.getElementById("submit").addEventListener("click", function () {
+  // const incNum = document.getElementById('incNum').checked;
+  // const severity = document.getElementById('severity').checked;
+  // const description = document.getElementById('description').checked;
+  // const wifi = document.getElementById('wifi').checked;
 
+  // // Load the option from storage and display it in the input field
+  // chrome.storage.sync.get("optionKey", function (data) {
+  //     optionInput.value = data.optionKey || "";
+  // });
 
+  // Save the option when the Save button is clicked
+  // saveButton.addEventListener('click', function () {
+  const options = ["incNum", "severity", "description", "wifi"]
+  chrome.storage.sync.set({ optionKey: options.toString() })
+  // });
+})
 
-            // // Load the option from storage and display it in the input field
-            // chrome.storage.sync.get("optionKey", function (data) {
-            //     optionInput.value = data.optionKey || "";
-            // });
+const constructPlaceHolder = (options) => {
+  let temp = ""
+  options.map((item) => {
+    if (temp) {
+      temp = temp + ` || ${item}`
+    } else {
+      temp = temp + item
+    }
+  })
+  return temp
+}
+const buttonNames = [
+  "IncidentNo",
+  "Severity",
+  "Description",
+  "AccountName",
+  "Wifi",
+]
 
-            // Save the option when the Save button is clicked
-            // saveButton.addEventListener('click', function () {
-                const options =['incNum','severity','description','wifi']
-                chrome.storage.sync.set({ "optionKey": options.toString() });
-            // });
-        });
-        const dragList = document.getElementById('dragList');
-        let draggedItem = null;
-    
-        // Add event listeners for drag and drop events
-        dragList.addEventListener('dragstart', handleDragStart);
-        dragList.addEventListener('dragover', handleDragOver);
-        dragList.addEventListener('drop', handleDrop);
-    
-        // Drag start event handler
-        function handleDragStart(event) {
-          draggedItem = event.target;
-          event.dataTransfer.effectAllowed = 'move';
-          event.dataTransfer.setData('text/html', draggedItem.innerHTML);
-          event.target.style.opacity = '0.5';
+const buttonList = document.getElementById("buttonList")
+const placeHolder = document.getElementById("opions_placeholder")
+let draggedButton = null
+
+function renderButtons() {
+  buttonList.innerHTML = ""
+  buttonNames.forEach((name) => {
+    const button = document.createElement("div")
+    const checkbox = document.createElement("input")
+    checkbox.type == "check-box"
+    button.appendChild(checkbox)
+    button.className = "drag-item"
+    button.draggable = true
+    button.innerHTML = `<input type="checkbox" id="${name}"  value="${name}"/> <label for="vehicle1">${name}</label>`
+    buttonList.appendChild(button)
+  })
+}
+
+renderButtons()
+
+buttonList.addEventListener("dragstart", (e) => {
+  draggedButton = e.target
+})
+
+buttonList.addEventListener("dragover", (e) => {
+  e.preventDefault()
+})
+
+buttonList.addEventListener("drop", (e) => {
+  e.preventDefault()
+  if (draggedButton !== null) {
+    const targetButton = e.target
+    if (
+      targetButton &&
+      targetButton !== draggedButton &&
+      targetButton.classList.contains("drag-item")
+    ) {
+      const buttons = Array.from(buttonList.getElementsByClassName("drag-item"))
+      const draggedIndex = buttons.indexOf(draggedButton)
+      const targetIndex = buttons.indexOf(targetButton)
+
+      if (draggedIndex !== -1 && targetIndex !== -1) {
+        buttonList.removeChild(draggedButton)
+        if (draggedIndex < targetIndex) {
+          buttonList.insertBefore(draggedButton, targetButton.nextSibling)
+        } else {
+          buttonList.insertBefore(draggedButton, targetButton)
         }
-    
-        // Drag over event handler
-        function handleDragOver(event) {
-          event.preventDefault();
-          event.dataTransfer.dropEffect = 'move';
-          const targetItem = event.target;
-          if (targetItem !== draggedItem && targetItem.classList.contains('drag-item')) {
-            const boundingRect = targetItem.getBoundingClientRect();
-            const offset = boundingRect.y + (boundingRect.height / 2);
-            if (event.clientY - offset > 0) {
-              targetItem.style.borderBottom = 'solid 2px #000';
-              targetItem.style.borderTop = '';
-            } else {
-              targetItem.style.borderTop = 'solid 2px #000';
-              targetItem.style.borderBottom = '';
-            }
-          }
-        }
-    
-        // Drop event handler
-        function handleDrop(event) {
-          event.preventDefault();
-          const targetItem = event.target;
-          if (targetItem !== draggedItem && targetItem.classList.contains('drag-item')) {
-            if (event.clientY > targetItem.getBoundingClientRect().top + (targetItem.offsetHeight / 2)) {
-              targetItem.parentNode.insertBefore(draggedItem, targetItem.nextSibling);
-            } else {
-              targetItem.parentNode.insertBefore(draggedItem, targetItem);
-            }
-          }
-          targetItem.style.borderTop = '';
-          targetItem.style.borderBottom = '';
-          draggedItem.style.opacity = '';
-          draggedItem = null;
-        debugger
-        }
+
+        // Update array to reflect the new order
+        const [removedButton] = buttonNames.splice(draggedIndex, 1)
+        buttonNames.splice(targetIndex, 0, removedButton)
+        placeHolder.textContent = constructPlaceHolder(buttonNames)
+        console.log("********", buttonNames)
+        draggedButton = null
+      }
+    }
+  }
+})

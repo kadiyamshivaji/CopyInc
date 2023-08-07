@@ -35,6 +35,11 @@ function copyToClipboard(text) {
   document.body.removeChild(textarea)
 }
 
+function actionClick(inc){
+  document
+    .querySelector("iframe[title=" + inc + "]")
+    .contentWindow.document.getElementsByClassName('content-item content-field item-4 remove-top-spacing remove-bottom-spacing flex flex-row dataValueRead')[0].children[0].children[0].click()
+}
 chrome.runtime.sendMessage({ text: "add icon" }, (tabId) => {
   activeTabId = tabId
 })
@@ -42,7 +47,9 @@ chrome.runtime.sendMessage({ text: "add icon" }, (tabId) => {
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 
   if (message.action === "inc") {
+  
     incNum = getIncNumber()
+    // actionClick(incNum)
     copyToClipboard(incNum)
   }
   if (message.action === "inc+severity") {
