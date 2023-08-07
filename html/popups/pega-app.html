@@ -1,30 +1,42 @@
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
   </link>
-  </head>
-  <style>
-    html, body {
-      font-size: 14px;
-      min-width: 460px;
-      min-height: 101px;
-    }
-  
-    body {
-      margin: 8px;
-    }
-  
-    hr {
-      width: 100%;
-    }
-   
-  </style>
+</head>
+<style>
+  html,
+  body {
+    font-size: 14px;
+    min-width: 460px;
+    min-height: 101px;
+  }
 
- <ul>
-  <li><button id="inc">INC</button></li>
-  <li><button id="inc+severity">INC + Severity</button></li>
-  <li><button id="inc+severity+desc">INC +Severity + Description  </button></li>
-  <li><button id="customOptions">As per the selected options </button></li>
-</ul>
+  body {
+    margin: 8px;
+  }
+
+  hr {
+    width: 100%;
+  }
+ul{
+  list-style-type: none;  
+}
+div{
+  height: 24px;
+    font-style: initial;
+    padding-left: 32px;
+    cursor: pointer;
+}
+  div:hover {
+    
+    background-color: #ddd;
+  }
+</style>
+
+  <div>CopyInc</div>
+  <hr></hr>
+  <div><span id="inc">INC</span></div>
+  <div><span id="inc+severity">INC + Severity</span></div>
+  <div><span id="inc+severity+desc">INC +Severity + Description </span></div>
+  <div><span id="customOptions">As per the selected options </span></div>
 <br>
-<h1>---</h1>
 <script src="/js/menu.js"></script>
