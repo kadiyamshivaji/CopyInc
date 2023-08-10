@@ -88,7 +88,6 @@ buttonList.addEventListener("drop", (e) => {
         const [removedButton] = buttonNames.splice(draggedIndex, 1)
         buttonNames.splice(targetIndex, 0, removedButton)
         placeHolder.textContent = constructPlaceHolder(buttonNames)
-        console.log("********", buttonNames)
         draggedButton = null
       }
     }

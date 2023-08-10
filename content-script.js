@@ -47,7 +47,6 @@ chrome.runtime.sendMessage({ text: "add icon" }, (tabId) => {
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 
   if (message.action === "inc") {
-  
     incNum = getIncNumber()
     // actionClick(incNum)
     copyToClipboard(incNum)
@@ -55,17 +54,49 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   if (message.action === "inc+severity") {
     incNum = getIncNumber()
     const sev = getSeverity(incNum)
-    copyToClipboard("INC-" + incNum + " Severity-" + sev)
+    copyToClipboard(`${incNum} || ${sev}`)
   }
   if (message.action === "inc+severity+desc") {
     incNum = getIncNumber()
-    const sev = getSeverity(incNum)
     const desc = getDescription(incNum)
-    copyToClipboard("INC-" + incNum + " Severity-" + sev + " Title- " + desc)
+    copyToClipboard(`${incNum} || ${sev} || ${desc}`)
   }
   if(message.action === "customOptions"){
-    chrome.storage.sync.get("optionKey", function (data) {
-        optionInput.value = data.optionKey || "";
-      });
+    incNum = getIncNumber()
+    const mapOptions=[{
+      option:'IncidentNo',
+      func: getIncNumber
+    },
+    {
+      option:'Severity',
+      func: getSeverity
+    },
+    {
+      option:'Description',
+      func: getDescription
+    },
+    {
+      option:'AccountName',
+      func: getIncNumber
+    },
+    {
+      option:'Wifi',
+      func: getIncNumber
+    }
+  ]
+    const options = ['IncidentNo' ,'Severity', 'Description','AccountName','Wifi']
+    let str = "";
+    options.map(item =>{
+     const text = mapOptions.filter(opt => opt.option ===item )[0].func(incNum)
+     if (str) {
+      str = str + ` || ${text}`
+    } else {
+      str =  text
+    }
+    })
+    console.log('888',str)
+    // chrome.storage.sync.get("optionKey", function (data) {
+    //     optionInput.value = data.optionKey || "";
+    //   });
   }
 })
