@@ -102,3 +102,18 @@ buttonList.addEventListener("drop", (e) => {
     }
   }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  chrome.storage.sync.get("optionKey", function (data) {
+    const SelectedOptions = data["optionKey"]
+      ? data["optionKey"].split(",")
+      : "";
+    if (SelectedOptions.length > 0) {
+      for (let a = 0; a < SelectedOptions.length; a++) {
+        document
+          .getElementById(SelectedOptions[a])
+          .setAttribute("checked", true);
+      }
+    }
+  });
+});
