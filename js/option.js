@@ -34,7 +34,7 @@ const constructPlaceHolder = (options) => {
   return temp;
 };
 const buttonNames = [
-  "Incident Number",
+  "IncidentNumber",
   "Severity",
   "Description",
   "AccountName",
