@@ -68,6 +68,7 @@ function renderButtons(buttonNames) {
     buttonList.appendChild(button)
   })
 }
+
 chrome.storage.sync.get("optionKey", function (data) {
   let savedOptions = []
   savedOptions = (data.optionKey && data.optionKey.split(",")) || []
@@ -75,6 +76,7 @@ chrome.storage.sync.get("optionKey", function (data) {
   renderButtons(buttonNames)
   placeHolder.textContent = constructPlaceHolder(buttonNames)
 })
+
 buttonList.addEventListener("dragstart", (e) => {
   draggedButton = e.target
 })
@@ -118,6 +120,4 @@ buttonList.addEventListener("drop", (e) => {
 document.getElementById("saveOwnerShipNote").addEventListener("click", function () {
   const note = document.getElementById('ownerShipNote').value;
   chrome.storage.sync.set({ 'ownershipNote': note })
-
-
 })

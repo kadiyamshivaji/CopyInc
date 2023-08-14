@@ -18,6 +18,17 @@
         cursor: pointer;
         width: 15%;
       }
+      .ownershipNote {
+        background: #ddd;
+        padding: 10px;
+      }
+      textarea {
+        width: 50%;
+        height: 30%;
+      }
+      #saveOwnerShipNote{
+        margin-top: 10px;
+      }
     </style>
     <title>Extension Options</title>
   </head>
@@ -32,9 +43,7 @@
     ></div>
 
     <br /><br />
-    <div id="opions_placeholder">
-     
-    </div>
+    <div id="opions_placeholder"></div>
     <br /><br />
     <button
       id="submit"
@@ -43,17 +52,28 @@
       Submit
     </button>
     <button
-    id="reset"
-    value="Reset"
-  >
-    Reset
-  </button>
+      id="reset"
+      value="Reset"
+    >
+      Reset
+    </button>
     <br />
     <span>----</span>
     <br />
-    <textarea id ="ownerShipNote"></textarea>
-    
-      <button
+    <span><h1>Ownership Note</h1></span>
+    <div>
+      <div class="ownershipNote">
+        <p><strong>Taking Ownership :&nbsp;</strong></p>
+
+        <p>Hello Client,</p>
+
+        <textarea id="ownerShipNote"></textarea>
+
+        <p>Regards, GCS Engineer.</p>
+      </div>
+    </div>
+
+    <button
       id="saveOwnerShipNote"
       value="saveOwnerShipNote"
     >

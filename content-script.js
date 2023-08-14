@@ -62,32 +62,35 @@ const writeOwnershipNote = (inc) => {
     .document
   const standardList = dom.getElementsByClassName("standard")
   const primaryContact = standardList[standardList.length - 1].textContent
+
   const justifyList = dom.getElementsByClassName("leftJustifyStyle")
   const engineer = justifyList[justifyList.length - 1].textContent
-
-  let ownerShipNote =
-    '<div class="rteReadOnlyWithoutTB"><p><strong>Taking Ownership :&nbsp;</strong></p>' +
-    `<p>Hello ${primaryContact},</p>` +
+  
+  let replaceableNote =
     `<p>I'm ${engineer} from Pega. I've taken the ownership of the INC to drive towards resolution. I'm currently reviewing the information provided in the INC, I will send out a note if I need more information. I will keep you posted with updates.</p>` +
-    "<p>In the meantime, If you need an update or any new information that needs to be shared, please add a note.</p>" +
-    "<p>Thanks for your patience.</p>" +
-    `<p>Regards, ${engineer}.</p></div>`
-    // chrome.storage.sync.get('ownershipNote', function (data) { 
-    //   if(data.ownershipNote){
-    //     ownerShipNote =data.ownershipNote.replace('primary_contact_name',primaryContact).replace('engineer_name',engineer)
-    //   }
-    //   dom
-    //   .querySelectorAll("iframe")[0]
-    //   .contentDocument.getElementsByClassName(
-    //     "cke_editable cke_editable_themed cke_contents_ltr cke_show_borders"
-    //   )[0].children[0].innerHTML = ownerShipNote
-    // });
+    `<p>In the meantime, If you need an update or any new information that needs to be shared, please add a note.</p>` +
+    `<p>Thanks for your patience.</p>`
+
+  chrome.storage.sync.get("ownershipNote", function (data) {
+    if (data.ownershipNote) {
+      replaceableNote = data.ownershipNote.replace(/\n/g, "<br />")
+    }
+    let ownerShipNote =
+      '<div class="rteReadOnlyWithoutTB"><p><strong>Taking Ownership :&nbsp;</strong></p>' +
+      `<p>Hello ${primaryContact},</p>` +
+      `${replaceableNote}`+
+      `<p>Regards, ${engineer}.</p></div>`
     dom
       .querySelectorAll("iframe")[0]
       .contentDocument.getElementsByClassName(
         "cke_editable cke_editable_themed cke_contents_ltr cke_show_borders"
       )[0].children[0].innerHTML = ownerShipNote
- 
+  })
+  // dom
+  //   .querySelectorAll("iframe")[0]
+  //   .contentDocument.getElementsByClassName(
+  //     "cke_editable cke_editable_themed cke_contents_ltr cke_show_borders"
+  //   )[0].children[0].innerHTML = ownerShipNote
 }
 function copyToClipboard(text) {
   const textarea = document.createElement("textarea")
