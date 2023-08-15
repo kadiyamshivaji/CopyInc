@@ -2,10 +2,14 @@ let activeTabId = ""
 let incNum = ""
 
 const getIncNumber = () => {
-  return document.getElementsByClassName(
-    "tab-li tab-li-t tab-li-t-ns  selected tab-li-t-ns-selected"
-  )[0].children[0].children[0].children[0].children[0].children[0].children[1]
-    .children[0].textContent
+  try {
+    return document.getElementsByClassName(
+      "tab-li tab-li-t tab-li-t-ns  selected tab-li-t-ns-selected"
+    )[0].children[0].children[0].children[0].children[0].children[0].children[1]
+      .children[0].textContent
+  } catch (e) {
+    alert("Something went wrong")
+  }
 }
 
 /*  Read the severity and classification from DOM like 'Sev3 Incident' or 'Sev2 Issue'
@@ -13,102 +17,144 @@ const getIncNumber = () => {
     return {severity:'Sev3', classificationType :'Issue'} 
 */
 const getSeverity = (inc) => {
-  const severityAndType = document
-    .querySelector("iframe[title=" + inc + "]")
-    .contentWindow.document.getElementsByClassName("heading_3")[0].textContent //
-  const severity = severityAndType.split(" ")[0] // To get the severity eg: 'Sev3'
-  const classificationType = severityAndType.split(" ")[1] // To get the severity eg: 'Incident or Issue'
-  return `${severity} - ${classificationType}`
+  try {
+    const severityAndType = document
+      .querySelector("iframe[title=" + inc + "]")
+      .contentWindow.document.getElementsByClassName("heading_3")[0].textContent //
+    const severity = severityAndType.split(" ")[0] // To get the severity eg: 'Sev3'
+    const classificationType = severityAndType.split(" ")[1] // To get the severity eg: 'Incident or Issue'
+    return `${severity} - ${classificationType}`
+  } catch (e) {}
 }
 const getDescription = (inc) => {
-  return document
-    .querySelector("iframe[title=" + inc + "]")
-    .contentWindow.document.getElementsByClassName("heading_2")[0].textContent
+  try {
+    return document
+      .querySelector("iframe[title=" + inc + "]")
+      .contentWindow.document.getElementsByClassName("heading_2")[0].textContent
+  } catch (e) {}
 }
 const getFTS = (inc) => {
-  const parentEle = document
-    .querySelector("iframe[title=" + inc + "]")
-    .contentWindow.document.getElementsByClassName(
-      "content-item content-layout item-2 align-end flex flex-row"
-    )
-  const childEle =
-    parentEle[parentEle.length - 1].children[0].children[0].children[0].children
-  const status =
-    childEle[childEle.length - 2].children[0].children[1].textContent
+  try {
+    const parentEle = document
+      .querySelector("iframe[title=" + inc + "]")
+      .contentWindow.document.getElementsByClassName(
+        "content-item content-layout item-2 align-end flex flex-row"
+      )
+    const childEle =
+      parentEle[parentEle.length - 1].children[0].children[0].children[0]
+        .children
+    const status =
+      childEle[childEle.length - 2].children[0].children[1].textContent
 
-  return status !== "Standard" ? ` ${status}` : ""
+    return status !== "Standard" ? ` ${status}` : ""
+  } catch (e) {}
 }
 
 const getAccountName = (inc) => {
-  const iframeContent = document.querySelector("iframe[title=" + inc + "]")
-    .contentWindow.document
-  return (
-    iframeContent.getElementsByClassName("subtitle")[0].textContent +
-    iframeContent.getElementsByClassName("subtitle")[1].textContent
-  )
+  try {
+    const iframeContent = document.querySelector("iframe[title=" + inc + "]")
+      .contentWindow.document
+    return (
+      iframeContent.getElementsByClassName("subtitle")[0].textContent +
+      iframeContent.getElementsByClassName("subtitle")[1].textContent
+    )
+  } catch (e) {}
 }
 const getWfi = (inc) => {
-  return document
-    .querySelector("iframe[title=" + inc + "]")
-    .contentWindow.document.getElementsByClassName("heading_3")[2].textContent
+  try {
+    const wfi = document
+      .querySelector("iframe[title=" + inc + "]")
+      .contentWindow.document.getElementsByClassName("heading_3")[2].textContent
+    return `WFI-${wfi}`
+  } catch (e) {}
 }
 const getPriority = (inc) => {
-  return document
-    .querySelector("iframe[title=" + inc + "]")
-    .contentWindow.document.getElementsByClassName("heading_3")[1].textContent
+  try {
+    const priority = document
+      .querySelector("iframe[title=" + inc + "]")
+      .contentWindow.document.getElementsByClassName("heading_3")[1].textContent
+    return `Priority-${priority}`
+  } catch (e) {}
 }
-const writeOwnershipNote = (inc) => {
-  const dom = document.querySelector("iframe[title=" + inc + "]").contentWindow
-    .document
-  const standardList = dom.getElementsByClassName("standard")
-  const primaryContact = standardList[standardList.length - 1].textContent
+const getPlatfromversion = (inc) => {
+  try {
+    const tempList = document
+      .querySelector("iframe[title=" + inc + "]")
+      .contentWindow.document.getElementsByClassName(
+        "content-item content-field item-6"
+      )
 
-  const justifyList = dom.getElementsByClassName("leftJustifyStyle")
-  const engineer = justifyList[justifyList.length - 1].textContent
-  
-  let replaceableNote =
-    `<p>I'm ${engineer} from Pega. I've taken the ownership of the INC to drive towards resolution. I'm currently reviewing the information provided in the INC, I will send out a note if I need more information. I will keep you posted with updates.</p>` +
-    `<p>In the meantime, If you need an update or any new information that needs to be shared, please add a note.</p>` +
-    `<p>Thanks for your patience.</p>`
+    return tempList[tempList.length - 2].children[0].children[1].textContent
+  } catch (e) {}
+}
+const isSmeAvailable = (inc) => {
+  try {
+    const pegaContacts = document
+      .querySelector("iframe[title=" + inc + "]")
+      .contentWindow.document.getElementsByClassName(
+        "content-item content-field item-1 remove-top-spacing remove-bottom-spacing   margin-r-1x dataValueRead flex flex-row"
+      )
+    return pegaContacts.length > 1 ? `SME-YES` : `SME-NO`
+  } catch (e) {}
+}
+const promteNote = (inc, template) => {
+  try {
+    const dom = document.querySelector("iframe[title=" + inc + "]")
+      .contentWindow.document
+    const standardList = dom.getElementsByClassName("standard")
+    const primaryContact = standardList[standardList.length - 1].textContent
 
-  chrome.storage.sync.get("ownershipNote", function (data) {
-    if (data.ownershipNote) {
-      replaceableNote = data.ownershipNote.replace(/\n/g, "<br />")
-    }
-    let ownerShipNote =
-      '<div class="rteReadOnlyWithoutTB"><p><strong>Taking Ownership :&nbsp;</strong></p>' +
+    const engineer = dom.getElementsByClassName(
+      "content-item content-field item-1 remove-top-spacing remove-left-spacing remove-bottom-spacing remove-right-spacing   margin-r-2x link-format-text dataValueRead flex flex-row"
+    )[0].children[0].children[0].textContent
+    let customNotes =
       `<p>Hello ${primaryContact},</p>` +
-      `${replaceableNote}`+
+      `${template.replace(/\n/g, "<br />")}` +
       `<p>Regards, ${engineer}.</p></div>`
-    dom
-      .querySelectorAll("iframe")[0]
-      .contentDocument.getElementsByClassName(
-        "cke_editable cke_editable_themed cke_contents_ltr cke_show_borders"
-      )[0].children[0].innerHTML = ownerShipNote
-  })
-  // dom
-  //   .querySelectorAll("iframe")[0]
-  //   .contentDocument.getElementsByClassName(
-  //     "cke_editable cke_editable_themed cke_contents_ltr cke_show_borders"
-  //   )[0].children[0].innerHTML = ownerShipNote
+    try {
+      const editor = dom
+        .querySelectorAll("iframe")[0]
+        .contentDocument.getElementsByClassName(
+          "cke_editable cke_editable_themed cke_contents_ltr cke_show_borders"
+        )
+      if (editor.length > 0) {
+        editor[0].children[0].innerHTML = customNotes
+      } else {
+        const commentBox = om.getElementsByClassName("TANORM textAreaStyle")[0]
+        let notes =
+          `Hello ${primaryContact}, <br>` +
+          `${template.replace(/\n/g, "<br />")}` +
+          `Regards, ${engineer}.`
+        commentBox.value += `Hello ${primaryContact},`
+        commentBox.value += "\n"
+        commentBox.value += `${template}`
+        commentBox.value += "\n"
+        commentBox.value += `Regards, ${engineer}.`
+      }
+    } catch (e) {}
+  } catch (e) {
+    alert("Please open the editor")
+  }
 }
 function copyToClipboard(text) {
-  const textarea = document.createElement("textarea")
-  textarea.value = text
-  document.body.appendChild(textarea)
-  textarea.select()
-
   try {
-    const successful = document.execCommand("copy")
-    const msg = successful
-      ? "Text copied to clipboard!"
-      : "Unable to copy text to clipboard"
-    console.log(msg)
-  } catch (err) {
-    console.error("Error copying text:", err)
-  }
+    const textarea = document.createElement("textarea")
+    textarea.value = text
+    document.body.appendChild(textarea)
+    textarea.select()
 
-  document.body.removeChild(textarea)
+    try {
+      const successful = document.execCommand("copy")
+      const msg = successful
+        ? "Text copied to clipboard!"
+        : "Unable to copy text to clipboard"
+      console.log(msg)
+    } catch (err) {
+      console.error("Error copying text:", err)
+    }
+
+    document.body.removeChild(textarea)
+  } catch (e) {}
 }
 
 chrome.runtime.sendMessage({ text: "add icon" }, (tabId) => {
@@ -116,59 +162,65 @@ chrome.runtime.sendMessage({ text: "add icon" }, (tabId) => {
 })
 
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-  if (message.action === "inc") {
-    incNum = getIncNumber()
-    copyToClipboard(incNum)
-  }
-  if (message.action === "inc+severity") {
-    incNum = getIncNumber()
-    let severity = getSeverity(incNum).split("-")[0]
-    let classificationType = getSeverity(incNum).split("-")[1]
-
-    const fts = getFTS(incNum)
-
-    if (fts === "") {
-      severityAndType =
-        severity !== "Sev3" ? `${severity}-${classificationType}` : severity
-    } else {
-      severityAndType = `${severity}-${classificationType}`
+  try {
+    if (message.action === "inc") {
+      incNum = getIncNumber()
+      copyToClipboard(incNum)
     }
-    copyToClipboard(`${incNum}(${severityAndType}${fts})`)
-  }
-  if (message.action === "inc+severity+desc") {
-    incNum = getIncNumber()
-    const description = getDescription(incNum)
-    let severity = getSeverity(incNum).split("-")[0]
-    let classificationType = getSeverity(incNum).split("-")[1]
-    copyToClipboard(
-      `${incNum} || ${severity}-${classificationType} || ${description}`
-    )
-  }
-  if (message.action === "customOptions") {
-    incNum = getIncNumber()
+    if (message.action === "inc+severity") {
+      incNum = getIncNumber()
+      let severity = getSeverity(incNum).split("-")[0]
+      let classificationType = getSeverity(incNum).split("-")[1]
 
-    let options = []
-    chrome.storage.sync.get("optionKey", function (data) {
-      options = data.optionKey.split(",")
-      let result = ""
-      options.map((item) => {
-        const tempResult = mapOptions
-          .filter((opt) => opt.option === item)[0]
-          .func(incNum)
+      const fts = getFTS(incNum)
 
-        if (result) {
-          result = tempResult ? result + ` || ${tempResult}` : result
-        } else {
-          result = tempResult
-        }
+      if (fts === "") {
+        severityAndType =
+          severity !== "Sev3" ? `${severity}-${classificationType}` : severity
+      } else {
+        severityAndType = `${severity}-${classificationType}`
+      }
+      copyToClipboard(`${incNum}(${severityAndType}${fts})`)
+    }
+    if (message.action === "inc+severity+desc") {
+      incNum = getIncNumber()
+      const description = getDescription(incNum)
+      let severity = getSeverity(incNum).split("-")[0]
+      let classificationType = getSeverity(incNum).split("-")[1]
+      copyToClipboard(
+        `${incNum} || ${severity}-${classificationType} || ${description}`
+      )
+    }
+    if (message.action === "customOptions") {
+      incNum = getIncNumber()
+
+      let options = []
+      chrome.storage.sync.get("optionKey", function (data) {
+        options = data.optionKey.split(",")
+        let result = ""
+        options.map((item) => {
+          const tempResult = mapOptions
+            .filter((opt) => opt.option === item)[0]
+            .func(incNum)
+
+          if (result) {
+            result = tempResult ? result + ` || ${tempResult}` : result
+          } else {
+            result = tempResult
+          }
+        })
+        copyToClipboard(`${incNum} || ${result}`)
       })
-      copyToClipboard(result)
-    })
-  }
-  if (message.action === "ownership") {
-    incNum = getIncNumber()
-    writeOwnershipNote(incNum)
-  }
+    }
+    // if (message.action === "ownership") {
+    //   incNum = getIncNumber()
+    //   writeOwnershipNote(incNum)
+    // }
+    if (message.action === "note") {
+      incNum = getIncNumber()
+      promteNote(incNum, message.template)
+    }
+  } catch (e) {}
 })
 
 const mapOptions = [
@@ -199,5 +251,13 @@ const mapOptions = [
   {
     option: "Priority",
     func: getPriority,
+  },
+  {
+    option: "Platform",
+    func: getPlatfromversion,
+  },
+  {
+    option: "SME",
+    func: isSmeAvailable,
   },
 ]

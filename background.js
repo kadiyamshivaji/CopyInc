@@ -29,7 +29,7 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
     if(sender.url.includes('pegasupport.pega.com/prweb')){
       setIconAndPopup('pega-app', sender.tab.id);
   } else {
-    setIconAndPopup("pega-app", sender.tab.id);
+    setIconAndPopup("disabled", sender.tab.id);
   }
   }
   sendResponse({ tab: sender.tab.id });

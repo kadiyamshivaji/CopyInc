@@ -1,11 +1,12 @@
 let buttonNames = [
-  "IncidentNumber",
   "Severity",
   "Description",
   "AccountName",
   "WFI",
   "FTS",
-  "Priority"
+  "Priority",
+  "Platform",
+  "SME"
 ]
 const refresh = () => {
   renderButtons(buttonNames)
@@ -26,13 +27,14 @@ document.getElementById("submit").addEventListener("click", function () {
 
 document.getElementById("reset").addEventListener("click", function () {
   buttonNames = [
-    "IncidentNumber",
     "Severity",
     "Description",
     "AccountName",
     "WFI",
     "FTS",
-    "Priority"
+    "Priority",
+    "Platform",
+    "SME"
   ]
   chrome.storage.sync.set({ optionKey: buttonNames.toString() })
   renderButtons(buttonNames)

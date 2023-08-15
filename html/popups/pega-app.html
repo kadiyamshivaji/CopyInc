@@ -6,8 +6,7 @@
   html,
   body {
     font-size: 14px;
-    min-width: 460px;
-    min-height: 101px;
+    min-width: 450px;
   }
 
   body {
@@ -18,30 +17,75 @@
     width: 100%;
   }
   a:link {
-      text-decoration: none;
-}
+    text-decoration: none;
+  }
 
-ul{
-  list-style-type: none;  
-}
-div{
-  height: 24px;
+  li {
+    height: 24px;
     font-style: initial;
     padding-left: 32px;
     cursor: pointer;
-}
-  div:hover {
+  }
+
+  li:hover {
     background-color: #ddd;
+  }
+
+  a {
+    display: flex;
+    font-weight: 500;
+    justify-content: flex-start;
+  }
+
+  .caret {
+    cursor: pointer;
+    -webkit-user-select: none;
+    /* Safari 3.1+ */
+    -moz-user-select: none;
+    /* Firefox 2+ */
+    -ms-user-select: none;
+    /* IE 10+ */
+    user-select: none;
+  }
+
+  .caret::after {
+    content: "\25B6";
+    color: #aaa2a2;
+    display: inline-block;
+    margin-left: 30px;
+  }
+
+  .caret-down::after {
+    -ms-transform: rotate(90deg);
+    /* IE 9 */
+    -webkit-transform: rotate(90deg);
+    /* Safari */
+    transform: rotate(90deg);
+  }
+
+  .nested {
+    display: none;
+  }
+
+  .active {
+    display: block;
   }
 </style>
 
-  <div>CopyInc</div>
-  <hr></hr>
-  <div id="inc"><span >Inc</span></div>
-  <div id="inc+severity"><span >Inc + Severity</span></div>
-  <div id="inc+severity+desc"><span >Inc +Severity + Description </span></div>
-  <div id="customOptions"><span >Selected options </span></div>
-  <div id="ownership"><span >OnwerShip Note </span></div>
+<a href="https://github.com/kadiyamshivaji/CopyInc" target="https://github.com/kadiyamshivaji/CopyInc">CopyInc</a>
+<hr>
+</hr>
+<ul>
+  <li id="inc"><span>Inc</span>
+  <li id="inc+severity"><span>Inc + Severity</span>
+  <li id="customOptions"><span>Inc + Selected options</span>
+  <li><span class="caret">My Notes</span>
+    <ul class="nested" id="notesList">
+      <!-- <li id="ownership">Ownership Note</li>
+      <li id="Priority_Issue_Update">Priority Issue Update</li>
+      <li id="Screen_Share_Availability_Request">Screen Share Availability Request</li> -->
+    </ul>
+</ul>
 
 <br>
 <script src="/js/menu.js"></script>
