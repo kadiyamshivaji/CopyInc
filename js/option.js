@@ -141,21 +141,59 @@ document
     var cell3 = row.insertCell(2);
     cell1.innerHTML = "Sample Template Name";
     cell2.innerHTML = "Sample Template Content";
-    cell3.innerHTML = `<button class="btn btn-secondary">Update</button>
-              <button class="btn btn-danger" id="delete-template-btn" >Delete</button>`;
+    // cell3.innerHTML = `<button class="btn btn-secondary">Update</button>
+    //           <button class="btn btn-danger delete-template-btn" >Delete</button>`;
+
+    const UpdateBtn = document.createElement("button");
+    UpdateBtn.setAttribute("class", "btn btn-secondary update-template-btn");
+    UpdateBtn.setAttribute("data-bs-toggle", "modal");
+    UpdateBtn.setAttribute("data-bs-target", "#exampleModal");
+    UpdateBtn.innerText = "Update";
+
+    cell3.appendChild(UpdateBtn);
+    const DeleteBtn = document.createElement("button");
+    DeleteBtn.setAttribute("class", "btn btn-danger delete-template-btn");
+    DeleteBtn.addEventListener("click", deleteRow, false);
+    DeleteBtn.innerText = "Delete";
+    cell3.appendChild(DeleteBtn);
 
     // TODO - save the data in chrome storage
   });
 
 // ******************* Function to delete the template from the row ***********************
 
-document
-  .getElementById("delete-template-btn")
-  .addEventListener("click", function (r) {
-    const i = r.target.parentNode.parentNode.rowIndex;
-    document.getElementById("template-table").deleteRow(i);
+// document
+//   .getElementsByClassName("delete-template-btn")
+//   .addEventListener("click", function (e) {
+//     const i = e.target.parentNode.parentNode.rowIndex;
+//     document.getElementById("template-table").deleteRow(i);
 
-    // TODO - update the data in chrome storage
-  });
+//     // TODO - update the data in chrome storage
+//   });
 
+const deleteBtnArray = document.querySelectorAll(".delete-template-btn");
 
+deleteBtnArray.forEach((el) =>
+  el.addEventListener("click", (e) => {
+    deleteRow(e);
+  })
+);
+
+function deleteRow(e) {
+  const i = e.target.parentNode.parentNode.rowIndex;
+  document.getElementById("template-table").deleteRow(i);
+  // TODO - update the data in chrome storage
+}
+
+const updateBtnArray = document.querySelectorAll(".update-template-btn");
+
+updateBtnArray.forEach((el) =>
+  el.addEventListener("click", (e) => {
+    updateTemplate(e);
+  })
+);
+
+function updateTemplate(e) {
+  const i = e.target.parentNode.parentNode.rowIndex;
+  $("#exampleModal").modal("toggle");
+}
