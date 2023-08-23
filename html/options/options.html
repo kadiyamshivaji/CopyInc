@@ -82,12 +82,7 @@
                 <td>Ownership Template</td>
                 <td>This is a test note!!</td>
                 <td>
-                  <button
-                    class="btn btn-secondary"
-                    id="update-template-btn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                  >
+                  <button class="btn btn-secondary update-template-btn">
                     Update
                   </button>
                   <button class="btn btn-danger delete-template-btn">
@@ -129,14 +124,25 @@
           <div class="modal-body">
             <div class="container">
               <div class="row">
-                <div class="col-12">
-                  <input type="text" />
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <textarea name="" id="" cols="30" rows="10"></textarea>
+                <form>
+                  <div class="form-group">
+                    <label for="template-name">Template Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="template-name"
+                    />
                   </div>
-                </div>
+
+                  <div class="form-group">
+                    <label for="template-content">Template Content</label>
+                    <textarea
+                      class="form-control"
+                      id="template-content"
+                      rows="10"
+                    ></textarea>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -148,13 +154,19 @@
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="save-template-btn"
+            >
+              Save changes
+            </button>
           </div>
         </div>
       </div>
     </div>
   </body>
-
+  <script src="../../assets/jQuery/jquery.js"></script>
   <script src="../../assets/bootstrap-5.3.1-dist/js/bootstrap.bundle.min.js"></script>
 
   <script src="/js/option.js"></script>

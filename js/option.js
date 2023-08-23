@@ -141,16 +141,13 @@ document
     var cell3 = row.insertCell(2);
     cell1.innerHTML = "Sample Template Name";
     cell2.innerHTML = "Sample Template Content";
-    // cell3.innerHTML = `<button class="btn btn-secondary">Update</button>
-    //           <button class="btn btn-danger delete-template-btn" >Delete</button>`;
 
     const UpdateBtn = document.createElement("button");
     UpdateBtn.setAttribute("class", "btn btn-secondary update-template-btn");
-    UpdateBtn.setAttribute("data-bs-toggle", "modal");
-    UpdateBtn.setAttribute("data-bs-target", "#exampleModal");
+    UpdateBtn.addEventListener("click", updateTemplate, false);
     UpdateBtn.innerText = "Update";
-
     cell3.appendChild(UpdateBtn);
+
     const DeleteBtn = document.createElement("button");
     DeleteBtn.setAttribute("class", "btn btn-danger delete-template-btn");
     DeleteBtn.addEventListener("click", deleteRow, false);
@@ -161,15 +158,6 @@ document
   });
 
 // ******************* Function to delete the template from the row ***********************
-
-// document
-//   .getElementsByClassName("delete-template-btn")
-//   .addEventListener("click", function (e) {
-//     const i = e.target.parentNode.parentNode.rowIndex;
-//     document.getElementById("template-table").deleteRow(i);
-
-//     // TODO - update the data in chrome storage
-//   });
 
 const deleteBtnArray = document.querySelectorAll(".delete-template-btn");
 
@@ -185,6 +173,8 @@ function deleteRow(e) {
   // TODO - update the data in chrome storage
 }
 
+// ***********************************************************************************
+
 const updateBtnArray = document.querySelectorAll(".update-template-btn");
 
 updateBtnArray.forEach((el) =>
@@ -195,5 +185,17 @@ updateBtnArray.forEach((el) =>
 
 function updateTemplate(e) {
   const i = e.target.parentNode.parentNode.rowIndex;
-  $("#exampleModal").modal("toggle");
+
+  const tableHTMLNode = document.getElementById("template-table");
+  const row = tableHTMLNode.rows[i];
+  if (row != undefined) {
+    $("#template-name").text(row.cells[0].innerText);
+    $("#template-content").text(row.cells[1].innerText);
+  }
+
+  $("#exampleModal").modal("show");
 }
+
+document.getElementById("save-template-btn").addEventListener("click", (e) => {
+  console.log("here");
+});
