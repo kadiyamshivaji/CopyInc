@@ -120,42 +120,62 @@ buttonList.addEventListener("drop", (e) => {
   }
 });
 
-document
-  .getElementById("saveOwnerShipNote")
-  .addEventListener("click", function () {
-    const note = document.getElementById("ownerShipNote").value;
-    chrome.storage.sync.set({ ownershipNote: note });
+// document
+//   .getElementById("saveOwnerShipNote")
+//   .addEventListener("click", function () {
+//     const note = document.getElementById("ownerShipNote").value;
+//     chrome.storage.sync.set({ ownershipNote: note });
+//   });
+
+// ************* Create table on Page Load **************************
+
+document.addEventListener("DOMContentLoaded", function () {
+  chrome.storage.sync.get("myTempates", function (data) {
+    if (data["myTempates"] == undefined) {
+      chrome.storage.sync.set({
+        myTempates: [{ "Sample Template Name": "Sample Template Content" }],
+      });
+    } else {
+      for (var i = 0; i < data["myTempates"].length; i++) {
+        addTemplate(data["myTempates"][i], data["myTempates"][i]);
+      }
+    }
   });
+});
+
+// ************** Add table row with template data **********************
+
+function addTemplate(templateName, templateContent) {
+  const tableHTMLNode = document.getElementById("template-table");
+
+  // create a row with sample data
+  const row = tableHTMLNode.insertRow(-1);
+  var cell1 = row.insertCell(0);
+  var cell2 = row.insertCell(1);
+  var cell3 = row.insertCell(2);
+  cell1.innerHTML = templateName;
+  cell2.innerHTML = templateContent;
+
+  const UpdateBtn = document.createElement("button");
+  UpdateBtn.setAttribute("class", "btn btn-secondary update-template-btn");
+  UpdateBtn.addEventListener("click", updateTemplate, false);
+  UpdateBtn.innerText = "Update";
+  cell3.appendChild(UpdateBtn);
+
+  const DeleteBtn = document.createElement("button");
+  DeleteBtn.setAttribute("class", "btn btn-danger delete-template-btn");
+  DeleteBtn.addEventListener("click", deleteRow, false);
+  DeleteBtn.innerText = "Delete";
+  cell3.appendChild(DeleteBtn);
+}
 
 // ****************    Function to add new template in the table   *************************
 
 document
   .getElementById("create-new-template-btn")
-  .addEventListener("click", function () {
-    const tableHTMLNode = document.getElementById("template-table");
-
-    // create a row with sample data
-    const row = tableHTMLNode.insertRow(-1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    cell1.innerHTML = "Sample Template Name";
-    cell2.innerHTML = "Sample Template Content";
-
-    const UpdateBtn = document.createElement("button");
-    UpdateBtn.setAttribute("class", "btn btn-secondary update-template-btn");
-    UpdateBtn.addEventListener("click", updateTemplate, false);
-    UpdateBtn.innerText = "Update";
-    cell3.appendChild(UpdateBtn);
-
-    const DeleteBtn = document.createElement("button");
-    DeleteBtn.setAttribute("class", "btn btn-danger delete-template-btn");
-    DeleteBtn.addEventListener("click", deleteRow, false);
-    DeleteBtn.innerText = "Delete";
-    cell3.appendChild(DeleteBtn);
-
-    // TODO - save the data in chrome storage
-  });
+  .addEventListener("click", () =>
+    addTemplate("Sample Name", "Sample Content")
+  );
 
 // ******************* Function to delete the template from the row ***********************
 
@@ -173,7 +193,7 @@ function deleteRow(e) {
   // TODO - update the data in chrome storage
 }
 
-// ***********************************************************************************
+// ************************Function to update the template *******************************
 
 const updateBtnArray = document.querySelectorAll(".update-template-btn");
 
