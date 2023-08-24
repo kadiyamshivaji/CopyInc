@@ -189,13 +189,15 @@ function updateTemplate(e) {
   const tableHTMLNode = document.getElementById("template-table");
   const row = tableHTMLNode.rows[i];
   if (row != undefined) {
-    $("#template-name").text(row.cells[0].innerText);
+    $("#template-name").val(row.cells[0].innerText);
     $("#template-content").text(row.cells[1].innerText);
+    $("#exampleModal").modal("show");
+  } else {
+    alert("Some error occurred!!");
   }
-
-  $("#exampleModal").modal("show");
 }
 
 document.getElementById("save-template-btn").addEventListener("click", (e) => {
   console.log("here");
+  // update Chrome storage
 });
