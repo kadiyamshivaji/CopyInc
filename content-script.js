@@ -120,16 +120,22 @@ const promteNote = (inc, template) => {
       if (editor.length > 0) {
         editor[0].children[0].innerHTML = customNotes
       } else {
-        const commentBox = om.getElementsByClassName("TANORM textAreaStyle")[0]
-        let notes =
-          `Hello ${primaryContact}, <br>` +
-          `${template.replace(/\n/g, "<br />")}` +
-          `Regards, ${engineer}.`
-        commentBox.value += `Hello ${primaryContact},`
-        commentBox.value += "\n"
-        commentBox.value += `${template}`
-        commentBox.value += "\n"
-        commentBox.value += `Regards, ${engineer}.`
+        try {
+          const commentBox = dom.getElementsByClassName(
+            "TANORM textAreaStyle"
+          )[0]
+          let notes =
+            `Hello ${primaryContact}, <br>` +
+            `${template.replace(/\n/g, "<br />")}` +
+            `Regards, ${engineer}.`
+          commentBox.value += `Hello ${primaryContact},`
+          commentBox.value += "\n"
+          commentBox.value += `${template}`
+          commentBox.value += "\n"
+          commentBox.value += `Regards, ${engineer}.`
+        } catch (e) {
+          console.log("******Comment Scenario", e)
+        }
       }
     } catch (e) {}
   } catch (e) {

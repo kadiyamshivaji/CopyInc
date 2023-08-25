@@ -47,6 +47,14 @@ const notes=[{
   name:'Act of God',
   template:`As the problem has been resolved through cache clearance, we will be closing the INC by the end of the day.`
 },
+{
+  name:'Empty Template',
+  template:`\n`
+},
+{
+  name:'No Queries',
+  template: `If no further queries we will resolve the INC`
+},
 ]
 
 const notesList = document.getElementById('notesList');
