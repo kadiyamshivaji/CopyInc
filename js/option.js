@@ -127,23 +127,24 @@ buttonList.addEventListener("drop", (e) => {
 //     chrome.storage.sync.set({ ownershipNote: note });
 //   });
 
-// ************* Create table on Page Load **************************
+// ********************* Create table on Page Load **************************
 
 document.addEventListener("DOMContentLoaded", function () {
-  chrome.storage.sync.get("myTempates", function (data) {
-    if (data["myTempates"] == undefined) {
+  chrome.storage.sync.get("myTemplates", function (data) {
+    if (data["myTemplates"] == undefined) {
       chrome.storage.sync.set({
-        myTempates: [{ "Sample Template Name": "Sample Template Content" }],
+        myTemplates: [{ "Sample Template Name": "Sample Template Content" }],
       });
+      addTemplate("Sample Template Name", "Sample Template Content");
     } else {
-      for (var i = 0; i < data["myTempates"].length; i++) {
-        addTemplate(data["myTempates"][i], data["myTempates"][i]);
+      for (var i = 0; i < data["myTemplates"].length; i++) {
+        addTemplate(data["myTemplates"][i], data["myTemplates"][i]);
       }
     }
   });
 });
 
-// ************** Add table row with template data **********************
+// ************************ Add table row with template data **********************
 
 function addTemplate(templateName, templateContent) {
   const tableHTMLNode = document.getElementById("template-table");
@@ -169,7 +170,7 @@ function addTemplate(templateName, templateContent) {
   cell3.appendChild(DeleteBtn);
 }
 
-// ****************    Function to add new template in the table   *************************
+// ****************    Function to add new template row in the table   *************************
 
 document
   .getElementById("create-new-template-btn")
@@ -177,7 +178,7 @@ document
     addTemplate("Sample Name", "Sample Content")
   );
 
-// ******************* Function to delete the template from the row ***********************
+// ******************* Function to delete the template row from table ***********************
 
 const deleteBtnArray = document.querySelectorAll(".delete-template-btn");
 
@@ -189,8 +190,20 @@ deleteBtnArray.forEach((el) =>
 
 function deleteRow(e) {
   const i = e.target.parentNode.parentNode.rowIndex;
-  document.getElementById("template-table").deleteRow(i);
-  // TODO - update the data in chrome storage
+  const res = confirm("Are you sure you want to delete?");
+  if (res) {
+    document.getElementById("template-table").deleteRow(i);
+    const tableHTMLNode = document.getElementById("template-table");
+    const row = tableHTMLNode.rows[i];
+    if (row != undefined) {
+      const DeltedTemplateName = row.cells[0].innerText;
+      // To test
+      let removeKitten = browser.storage.sync.remove("Sample Template");
+      removeKitten.then(alert("done"), alert("not done"));
+    } else {
+      alert("Some error occurred!!");
+    }
+  }
 }
 
 // ************************Function to update the template *******************************
@@ -209,6 +222,7 @@ function updateTemplate(e) {
   const tableHTMLNode = document.getElementById("template-table");
   const row = tableHTMLNode.rows[i];
   if (row != undefined) {
+    $("#template-name-hidden").val(row.cells[0].innerText);
     $("#template-name").val(row.cells[0].innerText);
     $("#template-content").text(row.cells[1].innerText);
     $("#exampleModal").modal("show");
@@ -217,7 +231,26 @@ function updateTemplate(e) {
   }
 }
 
+// ************************Function to save the updated template *******************************
+
 document.getElementById("save-template-btn").addEventListener("click", (e) => {
   console.log("here");
-  // update Chrome storage
+  const valToBeUpdated = $("#template-name-hidden").val();
+  chrome.storage.sync.get("myTemplates", function (data) {
+    let arr = data["myTemplates"];
+    const newTemplateName = "#template-name".val();
+    const newTemplateContent = "#template-content".val();
+    arr[valToBeUpdated] = newTemplateContent;
+    chrome.storage.sync.set({
+      myTemplates: arr,
+    });
+    // if (data["myTemplates"][valToBeUpdated]) {
+    //   arr[valToBeUpdated] = newTemplateContent;
+    //   chrome.storage.sync.set({
+    //     myTemplates: arr,
+    //   });
+    // } else {
+
+    // }
+  });
 });
