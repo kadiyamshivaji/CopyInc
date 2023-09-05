@@ -133,12 +133,23 @@ document.addEventListener("DOMContentLoaded", function () {
   chrome.storage.sync.get("myTemplates", function (data) {
     if (data["myTemplates"] == undefined) {
       chrome.storage.sync.set({
-        myTemplates: [{ "Sample Template Name": "Sample Template Content" }],
+        myTemplates: [
+          {
+            Name: "Initial Template Name",
+            Content: "Initial Template Content",
+          },
+        ],
       });
-      addTemplate("Sample Template Name", "Sample Template Content");
+      addTemplate("Initial Template Name", "Initial Template Content");
     } else {
       for (var i = 0; i < data["myTemplates"].length; i++) {
-        addTemplate(data["myTemplates"][i], data["myTemplates"][i]);
+        // Object.keys(data["myTemplates"][i]).forEach(function (key) {
+        //   addTemplate(key, data["myTemplates"][i][key]);
+        // });
+        addTemplate(
+          data["myTemplates"][i].Name,
+          data["myTemplates"][i].Content
+        );
       }
     }
   });
@@ -192,17 +203,27 @@ function deleteRow(e) {
   const i = e.target.parentNode.parentNode.rowIndex;
   const res = confirm("Are you sure you want to delete?");
   if (res) {
-    document.getElementById("template-table").deleteRow(i);
     const tableHTMLNode = document.getElementById("template-table");
     const row = tableHTMLNode.rows[i];
     if (row != undefined) {
       const DeltedTemplateName = row.cells[0].innerText;
-      // To test
-      let removeKitten = browser.storage.sync.remove("Sample Template");
-      removeKitten.then(alert("done"), alert("not done"));
+      chrome.storage.sync.get("myTemplates", function (data) {
+        let arr = data["myTemplates"];
+        const ifExists = arr.filter((e) => e.Name == DeltedTemplateName);
+        if (ifExists.length > 0) {
+          const index = arr.indexOf(ifExists[0]);
+          arr.splice(index, 1);
+          chrome.storage.sync.set({
+            myTemplates: arr,
+          });
+        } else {
+          alert("An error occurred while deleting the row.");
+        }
+      });
     } else {
       alert("Some error occurred!!");
     }
+    tableHTMLNode.deleteRow(i);
   }
 }
 
@@ -234,23 +255,21 @@ function updateTemplate(e) {
 // ************************Function to save the updated template *******************************
 
 document.getElementById("save-template-btn").addEventListener("click", (e) => {
-  console.log("here");
-  const valToBeUpdated = $("#template-name-hidden").val();
   chrome.storage.sync.get("myTemplates", function (data) {
     let arr = data["myTemplates"];
-    const newTemplateName = "#template-name".val();
-    const newTemplateContent = "#template-content".val();
-    arr[valToBeUpdated] = newTemplateContent;
+    const oldValue = $("#template-name-hidden").val();
+    const newTemplateName = $("#template-name").val();
+    const newTemplateContent = $("#template-content").val();
+    const ifExists = arr.filter((e) => e.Name == oldValue);
+    if (ifExists.length > 0) {
+      const index = arr.indexOf(ifExists[0]);
+      arr[index] = { Name: newTemplateName, Content: newTemplateContent };
+    } else {
+      arr.push({ Name: newTemplateName, Content: newTemplateContent });
+    }
     chrome.storage.sync.set({
       myTemplates: arr,
     });
-    // if (data["myTemplates"][valToBeUpdated]) {
-    //   arr[valToBeUpdated] = newTemplateContent;
-    //   chrome.storage.sync.set({
-    //     myTemplates: arr,
-    //   });
-    // } else {
-
-    // }
+    $("#exampleModal").modal("hide");
   });
 });
