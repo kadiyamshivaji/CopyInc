@@ -1,5 +1,10 @@
 <html>
   <head>
+    <link
+      rel="stylesheet"
+      href="../../assets/bootstrap-5.3.1-dist/css/bootstrap.min.css"
+    />
+
     <style>
       #opions_placeholder {
         color: #ddd;
@@ -22,11 +27,8 @@
         background: #ddd;
         padding: 10px;
       }
-      textarea {
-        width: 50%;
-        height: 30%;
-      }
-      #saveOwnerShipNote{
+
+      #saveOwnerShipNote {
         margin-top: 10px;
       }
     </style>
@@ -37,48 +39,127 @@
     <br />
     <span>----</span>
     <br />
-    <div
-      class="button-list"
-      id="buttonList"
-    ></div>
+    <div class="button-list" id="buttonList"></div>
 
     <br /><br />
     <div id="opions_placeholder"></div>
     <br /><br />
-    <button
-      id="submit"
-      value="Submit"
-    >
-      Submit
-    </button>
-    <button
-      id="reset"
-      value="Reset"
-    >
-      Reset
-    </button>
-    <br />
-    <span>----</span>
-    <br />
-    <span><h1>Ownership Note</h1></span>
-    <div>
-      <div class="ownershipNote">
-        <p><strong>Taking Ownership :&nbsp;</strong></p>
+    <button id="submit" value="Submit">Submit</button>
+    <button id="reset" value="Reset">Reset</button>
+    <div class="row">
+      <div class="col-12"><h4>Your Templates</h4></div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <!-- <div class="ownershipNote">
+          <p><strong>Taking Ownership :&nbsp;</strong></p>
 
-        <p>Hello Client,</p>
+          <p>Hello Client,</p>
 
-        <textarea id="ownerShipNote"></textarea>
+          <textarea id="ownerShipNote"></textarea>
 
-        <p>Regards, GCS Engineer.</p>
+          <p>Regards, GCS Engineer.</p>
+        </div> -->
+        <div class="col-12 p-10">
+          <button class="btn btn-primary" id="create-new-template-btn">
+            Add a new template
+          </button>
+        </div>
+        <div class="col-12 p-10">
+          <table class="table" id="template-table">
+            <thead>
+              <tr>
+                <th>Template Name</th>
+                <th>Template Content</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
-    <button
-      id="saveOwnerShipNote"
-      value="saveOwnerShipNote"
-    >
+    <!-- <button id="saveOwnerShipNote" value="saveOwnerShipNote">
       Save Ownership Note
-    </button>
+    </button> -->
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Update Template
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <form>
+                  <div class="form-group" style="display: none">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="template-name-hidden"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="template-name">Template Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="template-name"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="template-content">Template Content</label>
+                    <textarea
+                      class="form-control"
+                      id="template-content"
+                      rows="10"
+                    ></textarea>
+                  </div>
+                </form>
+                <div>Please refresh the page to view the updated changes.</div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="save-template-btn"
+            >
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
+  <script src="../../assets/jQuery/jquery.js"></script>
+  <script src="../../assets/bootstrap-5.3.1-dist/js/bootstrap.bundle.min.js"></script>
+
   <script src="/js/option.js"></script>
 </html>
