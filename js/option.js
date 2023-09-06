@@ -7,23 +7,23 @@ let buttonNames = [
   "Priority",
   "Platform",
   "SME",
-];
+]
 const refresh = () => {
-  renderButtons(buttonNames);
-};
+  renderButtons(buttonNames)
+}
 document.getElementById("submit").addEventListener("click", function () {
-  const SelectedOptions = [];
-  const arr = document.getElementsByClassName("option-item");
+  const SelectedOptions = []
+  const arr = document.getElementsByClassName("option-item")
   for (let a = 0; a < arr.length; a++) {
     if (arr[a].checked) {
-      SelectedOptions.push(arr[a].getAttribute("value"));
+      SelectedOptions.push(arr[a].getAttribute("value"))
     }
   }
-  chrome.storage.sync.set({ optionKey: SelectedOptions.toString() });
-  buttonNames = SelectedOptions;
-  refresh();
-  placeHolder.textContent = constructPlaceHolder(buttonNames);
-});
+  chrome.storage.sync.set({ optionKey: SelectedOptions.toString() })
+  buttonNames = SelectedOptions
+  refresh()
+  placeHolder.textContent = constructPlaceHolder(buttonNames)
+})
 
 document.getElementById("reset").addEventListener("click", function () {
   buttonNames = [
@@ -35,241 +35,191 @@ document.getElementById("reset").addEventListener("click", function () {
     "Priority",
     "Platform",
     "SME",
-  ];
-  chrome.storage.sync.set({ optionKey: buttonNames.toString() });
-  renderButtons(buttonNames);
-  placeHolder.textContent = constructPlaceHolder(buttonNames);
-});
+  ]
+  chrome.storage.sync.set({ optionKey: buttonNames.toString() })
+  renderButtons(buttonNames)
+  placeHolder.textContent = constructPlaceHolder(buttonNames)
+})
 
 const constructPlaceHolder = (options) => {
-  let temp = "";
+  let temp = ""
   options.map((item) => {
     if (temp) {
-      temp = temp + ` || ${item}`;
+      temp = temp + ` || ${item}`
     } else {
-      temp = temp + item;
+      temp = temp + item
     }
-  });
-  return temp;
-};
+  })
+  return temp
+}
 
-const buttonList = document.getElementById("buttonList");
-const placeHolder = document.getElementById("opions_placeholder");
-let draggedButton = null;
+const buttonList = document.getElementById("buttonList")
+const placeHolder = document.getElementById("opions_placeholder")
+let draggedButton = null
 
 function renderButtons(buttonNames) {
-  buttonList.innerHTML = "";
+  buttonList.innerHTML = ""
   buttonNames.forEach((name) => {
-    const button = document.createElement("div");
-    const checkbox = document.createElement("input");
-    checkbox.type == "check-box";
-    button.appendChild(checkbox);
-    button.className = "drag-item";
-    button.draggable = true;
-    button.innerHTML = `<input type="checkbox" id="${name.toLowerCase()}" checked  value="${name}" class="option-item"/> <label for="${name}">${name}</label>`;
-    buttonList.appendChild(button);
-  });
+    const button = document.createElement("div")
+    const checkbox = document.createElement("input")
+    checkbox.type == "check-box"
+    button.appendChild(checkbox)
+    button.className = "drag-item"
+    button.draggable = true
+    button.innerHTML = `<input type="checkbox" id="${name.toLowerCase()}" checked  value="${name}" class="option-item"/> <label for="${name}">${name}</label>`
+    buttonList.appendChild(button)
+  })
 }
 
 chrome.storage.sync.get("optionKey", function (data) {
-  let savedOptions = [];
-  savedOptions = (data.optionKey && data.optionKey.split(",")) || [];
-  buttonNames = savedOptions.length > 0 ? savedOptions : buttonNames;
-  renderButtons(buttonNames);
-  placeHolder.textContent = constructPlaceHolder(buttonNames);
-});
+  let savedOptions = []
+  savedOptions = (data.optionKey && data.optionKey.split(",")) || []
+  buttonNames = savedOptions.length > 0 ? savedOptions : buttonNames
+  renderButtons(buttonNames)
+  placeHolder.textContent = constructPlaceHolder(buttonNames)
+})
 
 buttonList.addEventListener("dragstart", (e) => {
-  draggedButton = e.target;
-});
+  draggedButton = e.target
+})
 
 buttonList.addEventListener("dragover", (e) => {
-  e.preventDefault();
-});
+  e.preventDefault()
+})
 
 buttonList.addEventListener("drop", (e) => {
-  e.preventDefault();
+  e.preventDefault()
   if (draggedButton !== null) {
-    const targetButton = e.target;
+    const targetButton = e.target
     if (
       targetButton &&
       targetButton !== draggedButton &&
       targetButton.classList.contains("drag-item")
     ) {
-      const buttons = Array.from(
-        buttonList.getElementsByClassName("drag-item")
-      );
-      const draggedIndex = buttons.indexOf(draggedButton);
-      const targetIndex = buttons.indexOf(targetButton);
+      const buttons = Array.from(buttonList.getElementsByClassName("drag-item"))
+      const draggedIndex = buttons.indexOf(draggedButton)
+      const targetIndex = buttons.indexOf(targetButton)
 
       if (draggedIndex !== -1 && targetIndex !== -1) {
-        buttonList.removeChild(draggedButton);
+        buttonList.removeChild(draggedButton)
         if (draggedIndex < targetIndex) {
-          buttonList.insertBefore(draggedButton, targetButton.nextSibling);
+          buttonList.insertBefore(draggedButton, targetButton.nextSibling)
         } else {
-          buttonList.insertBefore(draggedButton, targetButton);
+          buttonList.insertBefore(draggedButton, targetButton)
         }
 
         // Update array to reflect the new order
-        const [removedButton] = buttonNames.splice(draggedIndex, 1);
-        buttonNames.splice(targetIndex, 0, removedButton);
-        placeHolder.textContent = constructPlaceHolder(buttonNames);
-        draggedButton = null;
+        const [removedButton] = buttonNames.splice(draggedIndex, 1)
+        buttonNames.splice(targetIndex, 0, removedButton)
+        placeHolder.textContent = constructPlaceHolder(buttonNames)
+        draggedButton = null
       }
     }
   }
-});
+})
 
-// document
-//   .getElementById("saveOwnerShipNote")
-//   .addEventListener("click", function () {
-//     const note = document.getElementById("ownerShipNote").value;
-//     chrome.storage.sync.set({ ownershipNote: note });
-//   });
 
-// ********************* Create table on Page Load **************************
 
-document.addEventListener("DOMContentLoaded", function () {
-  chrome.storage.sync.get("myTemplates", function (data) {
-    if (data["myTemplates"] == undefined) {
-      chrome.storage.sync.set({
-        myTemplates: [
-          {
-            Name: "Initial Template Name",
-            Content: "Initial Template Content",
-          },
-        ],
-      });
-      addTemplate("Initial Template Name", "Initial Template Content");
-    } else {
-      for (var i = 0; i < data["myTemplates"].length; i++) {
-        // Object.keys(data["myTemplates"][i]).forEach(function (key) {
-        //   addTemplate(key, data["myTemplates"][i][key]);
-        // });
-        addTemplate(
-          data["myTemplates"][i].Name,
-          data["myTemplates"][i].Content
-        );
-      }
-    }
-  });
-});
 
-// ************************ Add table row with template data **********************
 
-function addTemplate(templateName, templateContent) {
-  const tableHTMLNode = document.getElementById("template-table");
 
-  // create a row with sample data
-  const row = tableHTMLNode.insertRow(-1);
-  var cell1 = row.insertCell(0);
-  var cell2 = row.insertCell(1);
-  var cell3 = row.insertCell(2);
-  cell1.innerHTML = templateName;
-  cell2.innerHTML = templateContent;
+/* Notes Table */
 
-  const UpdateBtn = document.createElement("button");
-  UpdateBtn.setAttribute("class", "btn btn-secondary update-template-btn");
-  UpdateBtn.addEventListener("click", updateTemplate, false);
-  UpdateBtn.innerText = "Update";
-  cell3.appendChild(UpdateBtn);
+// Sample data
+const notes=[{
+  name:'Ownership Note',
+  template:`\nI'm Shivaji from Pega. I've taken the ownership of the INC to drive towards resolution. I'm currently reviewing the information provided in the INC, I will send out a note if I need more information. I will keep you posted with updates.\n\nIn the meantime, If you need an update or any new information that needs to be shared, please add a note.\n\nThanks for your patience.\n`
+},
+{
+  name:'Priority Issue Update',
+  template:`\nThank you for your patience.\n\nWe are working on this on high priority, we are checking with the teams internally to analyze the issue, we will update you soon on this. Thanks,`
+},
+{
+  name:'Screen Share Availability SRequest',
+  template:`\nCould you please share your feasible timings for a screenshare to get more details on the configuration. I will send the invite post confirmation.`
+},
+{
+  name:'Act of God',
+  template:`As the problem has been resolved through cache clearance, we will be closing the INC by the end of the day.`
+},
+{
+  name:'Empty Template',
+  template:`\n`
+},
+{
+  name:'No Queries',
+  template: `If no further queries we will resolve the INC`
+},
+]
 
-  const DeleteBtn = document.createElement("button");
-  DeleteBtn.setAttribute("class", "btn btn-danger delete-template-btn");
-  DeleteBtn.addEventListener("click", deleteRow, false);
-  DeleteBtn.innerText = "Delete";
-  cell3.appendChild(DeleteBtn);
-}
+// Function to populate the table
+function populateTable() {
+  const tableBody = document.querySelector("#data-table tbody")
+  tableBody.innerHTML = ""
 
-// ****************    Function to add new template row in the table   *************************
-
-document
-  .getElementById("create-new-template-btn")
-  .addEventListener("click", () =>
-    addTemplate("Sample Name", "Sample Content")
-  );
-
-// ******************* Function to delete the template row from table ***********************
-
-const deleteBtnArray = document.querySelectorAll(".delete-template-btn");
-
-deleteBtnArray.forEach((el) =>
-  el.addEventListener("click", (e) => {
-    deleteRow(e);
+  notes.forEach((row, index) => {
+    const newRow = document.createElement("tr")
+    newRow.innerHTML = `
+          <td>${row.name}</td>
+          <td>${row.template}</td>
+          <td>
+              <button type="button" class="btn btn-outline-primary update-btn" data-index="${index}">Update</button>
+              <button type="button" class="btn btn-outline-danger delete-btn"  data-index="${index}">Delete</button>
+          </td>
+      `
+    tableBody.appendChild(newRow)
   })
-);
-
-function deleteRow(e) {
-  const i = e.target.parentNode.parentNode.rowIndex;
-  const res = confirm("Are you sure you want to delete?");
-  if (res) {
-    const tableHTMLNode = document.getElementById("template-table");
-    const row = tableHTMLNode.rows[i];
-    if (row != undefined) {
-      const DeltedTemplateName = row.cells[0].innerText;
-      chrome.storage.sync.get("myTemplates", function (data) {
-        let arr = data["myTemplates"];
-        const ifExists = arr.filter((e) => e.Name == DeltedTemplateName);
-        if (ifExists.length > 0) {
-          const index = arr.indexOf(ifExists[0]);
-          arr.splice(index, 1);
-          chrome.storage.sync.set({
-            myTemplates: arr,
-          });
-        } else {
-          alert("An error occurred while deleting the row.");
-        }
-      });
-    } else {
-      alert("Some error occurred!!");
-    }
-    tableHTMLNode.deleteRow(i);
-  }
 }
 
-// ************************Function to update the template *******************************
+// Event listener for the "Add New Row" button
+document.querySelector("#add-row").addEventListener("click", () => {
+  const name = "sample name"
+  const template = "sample content"
 
-const updateBtnArray = document.querySelectorAll(".update-template-btn");
-
-updateBtnArray.forEach((el) =>
-  el.addEventListener("click", (e) => {
-    updateTemplate(e);
-  })
-);
-
-function updateTemplate(e) {
-  const i = e.target.parentNode.parentNode.rowIndex;
-
-  const tableHTMLNode = document.getElementById("template-table");
-  const row = tableHTMLNode.rows[i];
-  if (row != undefined) {
-    $("#template-name-hidden").val(row.cells[0].innerText);
-    $("#template-name").val(row.cells[0].innerText);
-    $("#template-content").text(row.cells[1].innerText);
-    $("#exampleModal").modal("show");
-  } else {
-    alert("Some error occurred!!");
+  if (name && template) {
+    notes.push({ name, template })
+    populateTable()
   }
-}
+})
 
-// ************************Function to save the updated template *******************************
+// Event listener for update button
+document.querySelector("#data-table").addEventListener("click", (event) => {
+  if (event.target.classList.contains("update-btn")) {
+    const index = event.target.getAttribute("data-index")
+    const row = notes[index]
+    document.querySelector("#update-name").value = row.name
+    document.querySelector("#update-content").value = row.template
+    $("#exampleModal").modal("show")
+    // Save the index of the row being updated
+    document.querySelector("#update-btn").setAttribute("data-index", index)
+  }
+})
 
-document.getElementById("save-template-btn").addEventListener("click", (e) => {
-  chrome.storage.sync.get("myTemplates", function (data) {
-    let arr = data["myTemplates"];
-    const oldValue = $("#template-name-hidden").val();
-    const newTemplateName = $("#template-name").val();
-    const newTemplateContent = $("#template-content").val();
-    const ifExists = arr.filter((e) => e.Name == oldValue);
-    if (ifExists.length > 0) {
-      const index = arr.indexOf(ifExists[0]);
-      arr[index] = { Name: newTemplateName, Content: newTemplateContent };
-    } else {
-      arr.push({ Name: newTemplateName, Content: newTemplateContent });
-    }
-    chrome.storage.sync.set({
-      myTemplates: arr,
-    });
-    $("#exampleModal").modal("hide");
-  });
-});
+// Event listener for update button in modal
+document.querySelector("#update-btn").addEventListener("click", () => {
+  const index = document.querySelector("#update-btn").getAttribute("data-index")
+  const newName = document.querySelector("#update-name").value
+  const newContent = document.querySelector("#update-content").value
+
+  if (newName && newContent) {
+    notes[index].name = newName
+    notes[index].template = newContent
+    chrome.storage.sync.set({ notes: notes })
+    populateTable()
+    $("#exampleModal").modal("hide")
+  }
+})
+
+
+
+// Event listener for delete button
+document.querySelector("#data-table").addEventListener("click", (event) => {
+  if (event.target.classList.contains("delete-btn")) {
+    const index = event.target.getAttribute("data-index")
+    notes.splice(index, 1)
+    populateTable()
+  }
+})
+
+// Initial population of the table
+populateTable()
