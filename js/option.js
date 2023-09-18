@@ -178,6 +178,7 @@ document.querySelector("#add-row").addEventListener("click", () => {
 
   if (name && template) {
     notes.push({ name, template })
+    chrome.storage.sync.set({ notes: notes })
     populateTable()
   }
 })
@@ -217,6 +218,7 @@ document.querySelector("#data-table").addEventListener("click", (event) => {
   if (event.target.classList.contains("delete-btn")) {
     const index = event.target.getAttribute("data-index")
     notes.splice(index, 1)
+    chrome.storage.sync.set({ notes: notes })
     populateTable()
   }
 })
