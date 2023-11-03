@@ -1,4 +1,5 @@
 <head>
+  <link rel="stylesheet" href="../../assets/bootstrap-5.3.1-dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
   </link>
 </head>
@@ -16,6 +17,7 @@
   hr {
     width: 100%;
   }
+
   a:link {
     text-decoration: none;
   }
@@ -69,23 +71,56 @@
 
   .active {
     display: block;
+    padding-left: 25px;
+  }
+
+  .myButton {
+    background: initial;
+    color: #000;
+    border: none;
   }
 </style>
 
 <a href="https://github.com/kadiyamshivaji/CopyInc" target="https://github.com/kadiyamshivaji/CopyInc">CopyInc</a>
 <hr>
 </hr>
-<ul>
-  <li id="inc"><span>Inc</span>
-  <li id="inc+severity"><span>Inc + Severity</span>
-  <li id="customOptions"><span>Inc + Selected options</span>
-  <li><span class="caret">My Notes</span>
-    <ul class="nested" id="notesList">
-      <!-- <li id="ownership">Ownership Note</li>
-      <li id="Priority_Issue_Update">Priority Issue Update</li>
-      <li id="Screen_Share_Availability_Request">Screen Share Availability Request</li> -->
+<div class="d-grid gap-2 col-6">
+  <div class="dropdown" id="inc">
+    <button type="button" class="btn btn-secondary myButton">
+      Inc
+    </button>
+  </div>
+  <div class="dropdown" id="inc+severity">
+    <button type="button" class="btn btn-secondary myButton">
+      Inc + Severity
+    </button>
+  </div>
+  <div class="dropdown" id="customOptions">
+    <button type="button" class="btn btn-secondary myButton">
+      Inc + Selected options
+    </button>
+  </div>
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle myButton" type="button" id="dropdownMenuButton1"
+      data-bs-toggle="dropdown" aria-expanded="false">
+      My Notes
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="notesList">
+
     </ul>
-</ul>
+  </div>
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle myButton" type="button" id="dropdownMenuButton2"
+      data-bs-toggle="dropdown" aria-expanded="false">
+      Instances
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2" id="instancesList">
+    </ul>
+  </div>
+</div>
 
 <br>
 <script src="/js/menu.js"></script>
+<script src="/js/instancesMenu.js"></script>
+<script src="../../assets/jQuery/jquery.js"></script>
+<script src="../../assets/bootstrap-5.3.1-dist/js/bootstrap.bundle.min.js"></script>

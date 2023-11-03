@@ -115,7 +115,7 @@ const promteNote = (inc, template) => {
       const editor = dom
         .querySelectorAll("iframe")[0]
         .contentDocument.getElementsByClassName(
-          "cke_editable cke_editable_themed cke_contents_ltr cke_show_borders"
+          "cke_editable cke_editable_themed cke_contents_ltr"
         )
       if (editor.length > 0) {
         editor[0].children[0].innerHTML = customNotes
@@ -133,6 +133,66 @@ const promteNote = (inc, template) => {
           commentBox.value += `${template}`
           commentBox.value += "\n"
           commentBox.value += `Regards, ${engineer}.`
+        } catch (e) {
+          console.log("******Comment Scenario", e)
+        }
+      }
+    } catch (e) {}
+  } catch (e) {
+    alert("Please open the editor")
+  }
+}
+const promoteMom =(inc,template) =>{
+
+  try {
+    const dom = document.querySelector("iframe[title=" + inc + "]")
+      .contentWindow.document
+    const standardList = dom.getElementsByClassName("standard")
+    const primaryContact = standardList[standardList.length - 1].textContent
+
+    const engineerList = dom.getElementsByClassName(
+      "content-item content-field item-1 remove-top-spacing remove-left-spacing remove-bottom-spacing remove-right-spacing   margin-r-2x link-format-text dataValueRead flex flex-row"
+    );
+    let gcsEngineer =engineerList[0].children[0].children[0].textContent;
+    let attenedEngineers = `${gcsEngineer}(Pega)`
+    let sme =""
+    if(engineerList.length>1){
+sme=engineerList[1].children[0].children[0].textContent;
+attenedEngineers =`${gcsEngineer}(Pega) and ${sme}(Pega)`
+    }
+    
+    console.log('****',sme)
+    let customNotes =
+      `<p>Hello ${primaryContact},</p>` +
+      `<p>Thank you for your time in the meeting.</p>` +
+      `<p><b>Attendees: </b> ${primaryContact}(Client) and ${attenedEngineers}</p>` +
+      `<p><b>Call Purpose: </b> To discuss details about the issue</p>` +
+      `<p><b>Minutes of meeting:</b></p>` +
+      `<p><b>GCS Next actions:</b></p>` +
+      `<p><b>Client Next actions:</b></p>` +
+      `<p><b>SME Next actions:</b></p>` +
+      `<p>Regards, ${gcsEngineer}.</p></div>`
+    try {
+      const editor = dom
+        .querySelectorAll("iframe")[0]
+        .contentDocument.getElementsByClassName(
+          "cke_editable cke_editable_themed cke_contents_ltr"
+          
+        )
+      if (editor.length > 0) {
+        editor[0].children[0].innerHTML = customNotes
+      } else {
+        try {
+          const commentBox = dom.getElementsByClassName(
+            "TANORM textAreaStyle"
+          )[0]
+          commentBox.value += `Hello ${primaryContact},`
+          commentBox.value += "\n"
+          commentBox.value += `Thank you for your time in the meeting.`
+          commentBox.value += "\n"
+          commentBox.value += `<b>Attendees</b>:Ranjitha(Client),Rohit(Client),Srinivas(client),Piotr(Pega Engineer), Rahul(Pega Engineer) and Santosh(Pega Engineer). `
+         
+          commentBox.value += `Regards, ${gcsEngineer}.`
         } catch (e) {
           console.log("******Comment Scenario", e)
         }
@@ -199,10 +259,22 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     }
     if (message.action === "customOptions") {
       incNum = getIncNumber()
-
+      const defaultOptions = [
+        "Severity",
+        "Description",
+        "AccountName",
+        "WFI",
+        "FTS",
+        "Priority",
+        "Platform",
+        "SME",
+      ]
       let options = []
       chrome.storage.sync.get("optionKey", function (data) {
-        options = data.optionKey.split(",")
+        debugger
+        options =
+          (Object.keys(data).length > 0 && data.optionKey.split(",")) ||
+          defaultOptions
         let result = ""
         options.map((item) => {
           const tempResult = mapOptions
@@ -218,13 +290,13 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         copyToClipboard(`${incNum} || ${result}`)
       })
     }
-    // if (message.action === "ownership") {
-    //   incNum = getIncNumber()
-    //   writeOwnershipNote(incNum)
-    // }
     if (message.action === "note") {
       incNum = getIncNumber()
-      promteNote(incNum, message.template)
+      if (message.name === "MOM") {
+        promoteMom(incNum, message.template)
+      } else {
+        promteNote(incNum, message.template)
+      }
     }
   } catch (e) {}
 })

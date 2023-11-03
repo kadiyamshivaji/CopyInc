@@ -2,6 +2,10 @@
 
 <head>
   <link rel="stylesheet" href="../../assets/bootstrap-5.3.1-dist/css/bootstrap.min.css" />
+  <link href="../../assets/fontawesome/css/fontawesome.css" rel="stylesheet">
+  <link href="../../assets/fontawesome/css/brands.css" rel="stylesheet">
+  <link href="../../assets/fontawesome/css/solid.css" rel="stylesheet">
+
 
   <style>
     .drag-list {
@@ -18,105 +22,214 @@
       display: flex;
     }
 
+    .section {
+      margin-right: 15%;
+      margin-left: 15%;
+    }
+    .font-color{
+      color: #99999a
+    }
   </style>
   <title>Extension Options</title>
 </head>
 
 <body>
-  <div class="card">
+  <div class="card section">
     <div class="card-body">
-      <div class="card text-center">
-        <div class="card-header">
-          Options
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Please select your Options and Order</h5>
-          <div class="alert alert-info" role="alert">
-            <div id="opions_placeholder"></div>
-          </div>
-          
-          <div class="button-list" id="buttonList"></div>
-        </div>
-        <div class="card-footer text-muted">
-          <button type="button" class="btn btn-outline-primary" id="submit"  value="Submit">Submit</button>
-          <button type="button" class="btn btn-outline-secondary" id="reset"  value="Reset">Reset</button>
-        </div>
-      </div>
-      <br />
-      <div class="card text-center">
-        <div class="card-header">
-          Notes
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Add your custom notes</h5>
-          <table class="table table-striped" id="data-table">
-            <thead>
-              <tr>
-                <th class="col-2">Name</th>
-                <th class="col-8">Template</th>
-                <th class="col-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        
-        </div>
-        <div class="card-footer text-muted">
-          <button type="button" class="btn btn-outline-dark" id="add-row">Add New template</button>
-        </div>
-      </div>
+      <div class="accordion" id="accordionExample">       
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+              aria-expanded="true" aria-controls="collapseTwo">
+              <h5>Notes</h5>
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <div class="card text-center">
+                <div class="card-body">
+                  <table class="table table-striped" id="data-table">
+                    <thead>
+                      <tr>
+                        <th class="col-2">Name</th>
+                        <th class="col-9">Template</th>
+                        <th class="col-1">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
 
-    </div>
-  </div>
-
-
-
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">
-            Update Template
-          </h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="container">
-            <div class="row">
-              <form>
-                <div class="form-group" style="display: none">
-                  <input type="text" class="form-control" id="template-name-hidden" />
                 </div>
-                <div class="form-group">
-                  <label for="template-name">Template Name</label>
-                  <input type="text" class="form-control" id="update-name" />
+                <div class="card-footer text-muted">
+                  <button type="button" class="btn btn-outline-dark" id="add-row">Add New template</button>
                 </div>
-
-                <div class="form-group">
-                  <label for="template-content">Template Content</label>
-                  <textarea class="form-control" id="update-content" rows="10"></textarea>
-                </div>
-              </form>
-              <div>Please refresh the page to view the updated changes.</div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary" id="update-btn">
-            Save changes
-          </button>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
+              aria-expanded="true" aria-controls="collapseThree">
+              <h5>Instances</h5>
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <div class="card text-center">
+                <div class="card-body">
+                  <table class="table table-striped" id="data-table-instances">
+                    <thead>
+                      <tr>
+                        <th class="col-2">Version</th>
+                        <th class="col-6">URL</th>
+                        <th class="col-2">User Name</th>
+                        <th class="col-2">Password</th>
+                        <th class="col-2">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+
+                </div>
+                <div class="card-footer text-muted">
+                  <button type="button" class="btn btn-outline-dark" id="add-instance">Add Instances</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+              aria-expanded="true" aria-controls="collapseOne">
+              <h5>Options</h5>
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <div class="card text-center">
+                <div class="card-body">
+                  <h5 class="card-title">Please select your Options and Order</h5>
+                  <div class="alert alert-info" role="alert">
+                    <div id="opions_placeholder"></div>
+                  </div>
+
+                  <div class="button-list" id="buttonList"></div>
+                </div>
+                <div class="card-footer text-muted">
+                  <button type="button" class="btn btn-outline-primary" id="submit" value="Submit">Submit</button>
+                  <button type="button" class="btn btn-outline-secondary" id="reset" value="Reset">Reset</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Update Template
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <form>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Name</span>
+                    <input type="text" class="form-control" id="update-name" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-text">Template</span>
+                    <textarea class="form-control"id="update-content"  aria-label="With textarea"></textarea>
+                  </div>
+                  <!-- <div class="form-group" style="display: none">
+                    <input type="text" class="form-control" id="template-name-hidden" />
+                  </div> -->
+                  <!-- <div class="form-group">
+                    <label for="template-name">Template Name</label>
+                    <input type="text" class="form-control" id="update-name" />
+                  </div> -->
+
+                  <!-- <div class="form-group">
+                    <label for="template-content">Template Content</label>
+                    <textarea class="form-control" id="update-content" rows="10"></textarea>
+                  </div> -->
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" id="update-btn">
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="instanceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="instanceModalLabel">
+              Instance Details
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <form>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" ><i class="fa-solid fa-user font-color"></i></span>
+                    <input type="text" class="form-control" id="username" placeholder="Username" aria-label="Username" aria-describedby="username">
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" ><i class="fa-solid fa-lock font-color"></i></span>
+                    <input type="text" class="form-control" id="password"  placeholder="Password" aria-label="Password" aria-describedby="password">
+                  </div>
+                
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" ><i class="fa-solid fa-route font-color"></i></span>
+                    <input type="text" class="form-control" id="url" placeholder="Url" aria-describedby="url">
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text"> <i class="fa-solid fa-code-compare font-color"></i></i></span>
+                    <input type="text" class="form-control" placeholder="version" id="version" aria-label="Version" aria-describedby="version">
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" id="update-instance">
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 </body>
 <script src="../../assets/jQuery/jquery.js"></script>
 <script src="../../assets/bootstrap-5.3.1-dist/js/bootstrap.bundle.min.js"></script>
-
 <script src="/js/option.js"></script>
+<script src="/js/instanceOptions.js"></script>
 
 </html>

@@ -118,69 +118,43 @@ buttonList.addEventListener("drop", (e) => {
   }
 })
 
-
-
-
-
-
 /* Notes Table */
 
-// Sample data
-const notes=[{
-  name:'Ownership Note',
-  template:`\nI'm Shivaji from Pega. I've taken the ownership of the INC to drive towards resolution. I'm currently reviewing the information provided in the INC, I will send out a note if I need more information. I will keep you posted with updates.\n\nIn the meantime, If you need an update or any new information that needs to be shared, please add a note.\n\nThanks for your patience.\n`
-},
-{
-  name:'Priority Issue Update',
-  template:`\nThank you for your patience.\n\nWe are working on this on high priority, we are checking with the teams internally to analyze the issue, we will update you soon on this. Thanks,`
-},
-{
-  name:'Screen Share Availability SRequest',
-  template:`\nCould you please share your feasible timings for a screenshare to get more details on the configuration. I will send the invite post confirmation.`
-},
-{
-  name:'Act of God',
-  template:`As the problem has been resolved through cache clearance, we will be closing the INC by the end of the day.`
-},
-{
-  name:'Empty Template',
-  template:`\n`
-},
-{
-  name:'No Queries',
-  template: `If no further queries we will resolve the INC`
-},
-]
-
 // Function to populate the table
+let notes = []
 function populateTable() {
   const tableBody = document.querySelector("#data-table tbody")
   tableBody.innerHTML = ""
-
-  notes.forEach((row, index) => {
-    const newRow = document.createElement("tr")
-    newRow.innerHTML = `
-          <td>${row.name}</td>
-          <td>${row.template}</td>
-          <td>
-              <button type="button" class="btn btn-outline-primary update-btn" data-index="${index}">Update</button>
-              <button type="button" class="btn btn-outline-danger delete-btn"  data-index="${index}">Delete</button>
-          </td>
-      `
-    tableBody.appendChild(newRow)
+  chrome.storage.sync.get("notes", function (data) {
+    notes = data.notes
+    notes.forEach((row, index) => {
+      if(row.name !=="MOM"){
+        const newRow = document.createElement("tr")
+        newRow.innerHTML = `
+              <td>${row.name}</td>
+              <td>${row.template}</td>
+              <td>
+              <i class="fa-regular fa-pen-to-square update-btn" title="Edit" data-index="${index}"></i>
+              <i class="fa-solid fa-trash-can delete-btn" data-index="${index}"></i>
+              </td>
+          `
+        tableBody.appendChild(newRow)
+      }
+    })
   })
 }
 
 // Event listener for the "Add New Row" button
 document.querySelector("#add-row").addEventListener("click", () => {
-  const name = "sample name"
-  const template = "sample content"
+  $("#exampleModal").modal("show")
+  // const name = "sample name"
+  // const template = "sample content"
 
-  if (name && template) {
-    notes.push({ name, template })
-    chrome.storage.sync.set({ notes: notes })
-    populateTable()
-  }
+  // if (name && template) {
+  //   notes.push({ name, template })
+  //   chrome.storage.sync.set({ notes: notes })
+  //   populateTable()
+  // }
 })
 
 // Event listener for update button
@@ -199,19 +173,24 @@ document.querySelector("#data-table").addEventListener("click", (event) => {
 // Event listener for update button in modal
 document.querySelector("#update-btn").addEventListener("click", () => {
   const index = document.querySelector("#update-btn").getAttribute("data-index")
-  const newName = document.querySelector("#update-name").value
-  const newContent = document.querySelector("#update-content").value
-
-  if (newName && newContent) {
-    notes[index].name = newName
-    notes[index].template = newContent
-    chrome.storage.sync.set({ notes: notes })
-    populateTable()
-    $("#exampleModal").modal("hide")
+  const name = document.querySelector("#update-name").value
+  const template = document.querySelector("#update-content").value
+  if (index) {
+    notes[index].name = name
+    notes[index].template = template
   }
+  else{
+    const newNotes = {
+      name,
+      template
+    }
+    notes.push(newNotes);
+  }
+
+  chrome.storage.sync.set({ notes: notes })
+  populateTable()
+  $("#exampleModal").modal("hide")
 })
-
-
 
 // Event listener for delete button
 document.querySelector("#data-table").addEventListener("click", (event) => {
