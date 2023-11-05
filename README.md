@@ -34,7 +34,7 @@ Below are options available in this extension
 
 2. Inc + Severity -> Copy the INC number and its severity, e.g., INC-XXXX (Sev3 - Incident).
 
-3. Inc + Selected options -> We offer multiple elements for copying from the INC page, such as \n "Severity," "Description," "AccountName," "WFI," "FTS," "Priority," "Platform," and "SME". \n You have the flexibility to select and arrange these options to suit your specific needs.
+3. Inc + Selected options -> We offer multiple elements for copying from the INC page, such as <br> "Severity," "Description," "AccountName," "WFI," "FTS," "Priority," "Platform," and "SME". \n You have the flexibility to select and arrange these options to suit your specific needs.
 
 4. My Notes -> Within the options page, there's a dedicated section for adding custom notes. \n These notes are accessible via the extension through the 'My Notes' option. By selecting the 'Notes' title, you can easily insert them into Pulse comments or the RTE comment box.
 
