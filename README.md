@@ -29,7 +29,6 @@ To assess the extension's functionality, navigate to an INC detail page within t
 ### Options
 Below are options available in this extension
 
-```
 1. Inc -> Copy the currently active INC number.
 
 2. Inc + Severity -> Copy the INC number and its severity, e.g., INC-XXXX (Sev3 - Incident).
@@ -40,7 +39,6 @@ Below are options available in this extension
 
 5. Instances -> Instantly access your personal instance with just a single click. In the Options page, there is an additional section where you can input the details of your instance.
 
-```
 
 ## Contributing
 
