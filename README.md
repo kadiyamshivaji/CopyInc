@@ -1,6 +1,6 @@
-# CopyInc
+# CopyInc+
 
-The **CopyInc** Chrome extension, a tool designed to streamline the process of sharing INC numbers effortlessly. With a single click, this extension empowers you to quickly and conveniently copy the INC number, eliminating the need for manual entry and saving you valuable time.
+The **CopyInc+** is a versatile Chrome extension that streamlines INC management, enabling you to efficiently copy INC numbers, severity, customize options , access notes, and instantly launch your instances with a single click.".
 
 ## Download the source code
 1. Click on the CopyInc.zip file
@@ -24,8 +24,23 @@ The **CopyInc** Chrome extension, a tool designed to streamline the process of s
 ```
 ## Usage
 
-To test the extension, open an INC detail, tap on the extension icon, and paste. 
+To assess the extension's functionality, navigate to an INC detail page within the Pega Support Portal, click on the extension icon, and make your preferred selections.
 
+### Options
+Below are options available in this extension
+
+```
+1. Inc -> Copy the currently active INC number.
+
+2. Inc + Severity -> Copy the INC number and its severity, e.g., INC-XXXX (Sev3 - Incident).
+
+3. Inc + Selected options -> We offer multiple elements for copying from the INC page, such as "Severity," "Description," "AccountName," "WFI," "FTS," "Priority," "Platform," and "SME." You have the flexibility to select and arrange these options to suit your specific needs.
+
+4. My Notes -> Within the options page, there's a dedicated section for adding custom notes. These notes are accessible via the extension through the 'My Notes' option. By selecting the 'Notes' title, you can easily insert them into Pulse comments or the RTE comment box.
+
+5. Instances -> Instantly access your personal instance with just a single click. In the Options page, there is an additional section where you can input the details of your instance.
+
+```
 
 ## Contributing
 
