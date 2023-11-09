@@ -1,6 +1,6 @@
 # incTool
 
-The **incTool** is a versatile Chrome extension that streamlines INC management, enabling you to efficiently copy INC numbers, severity, customize options , access notes, and instantly launch your instances with a single click.".
+The **incTool** is a versatile Chrome extension that streamlines INC management, enabling you to efficiently copy INC numbers, severity, customize options , access notes, and instantly launch your instances with a single click.
 
 ## Download the source code
 1. Click on the incTool.zip file
