@@ -1,12 +1,12 @@
 {
-  "name": "CopyInc",
+  "name": "incTool",
   "manifest_version": 3,
-  "version": "0.1",
+  "version": "0.2",
   "description": "Copies the active INC number",
   "options_page": "/html/options/options.html",
   "host_permissions": ["<all_urls>"],
   "action": {
-    "default_title": "CopyInc",
+    "default_title": "incTool",
     "default_popup": "/html/popups/pega-app.html"
   },
   "icons": {

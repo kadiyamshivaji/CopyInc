@@ -1,9 +1,9 @@
-# CopyInc+
+# incTool
 
-The **CopyInc+** is a versatile Chrome extension that streamlines INC management, enabling you to efficiently copy INC numbers, severity, customize options , access notes, and instantly launch your instances with a single click.".
+The **incTool** is a versatile Chrome extension that streamlines INC management, enabling you to efficiently copy INC numbers, severity, customize options , access notes, and instantly launch your instances with a single click.".
 
 ## Download the source code
-1. Click on the CopyInc.zip file
+1. Click on the incTool.zip file
 2. and then Click on the Download Raw file button 
 
 ## Installing and Running the Application
@@ -14,11 +14,11 @@ The **CopyInc+** is a versatile Chrome extension that streamlines INC management
 
 3. Press the "Load unpacked" button. 
 
-4. Locate and select the CopyInc source folder within the CopyInc folder. 
+4. Locate and select the incTool  source folder within the incTool folder. 
 
 5. Select the extension button from the Chrome Browser Window. 
 
-6. Pin the CopyInc extension from the list of extensions. 
+6. Pin the incTool extension from the list of extensions. 
 
 7. After refreshing the Interaction Portal tab, the active Pega icon will be visible.
 ```
