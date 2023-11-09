@@ -2,12 +2,10 @@
 
 The **incTool** is a versatile Chrome extension that streamlines INC management, enabling you to efficiently copy INC numbers, severity, customize options , access notes, and instantly launch your instances with a single click.
 
-## Download the source code
-1. Click on the incTool.zip file
-2. and then Click on the Download Raw file button 
+
 
 ## Installing and Running the Application
-method -1:
+## Method -1:
 ```
 1. Open Command Prompt
 
@@ -25,7 +23,7 @@ method -1:
 
 7. After refreshing the Interaction Portal tab, the active Pega icon will be visible.
 ```
-method -2
+## Method -2
 ```
 1. Click on the incTool.zip file
 
