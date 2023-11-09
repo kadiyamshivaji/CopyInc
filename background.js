@@ -59,32 +59,12 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 const notes = [
   {
     name: "Ownership Note",
-    template: `\nI'm Shivaji from Pega. I've taken the ownership of the INC to drive towards resolution. I'm currently reviewing the information provided in the INC, I will send out a note if I need more information. I will keep you posted with updates.\n\nIn the meantime, If you need an update or any new information that needs to be shared, please add a note.\n\nThanks for your patience.\n`,
+    template: `\nI'm ---- from Pega. I've taken the ownership of the INC to drive towards resolution. I'm currently reviewing the information provided in the INC, I will send out a note if I need more information. I will keep you posted with updates.\n\nIn the meantime, If you need an update or any new information that needs to be shared, please add a note.\n\nThanks for your patience.\n`,
   },
   {
     name:"MOM",
     template:``
-  },
-  {
-    name: "Priority Issue Update",
-    template: `\nThank you for your patience.\n\nWe are working on this on high priority, we are checking with the teams internally to analyze the issue, we will update you soon on this. Thanks,`,
-  },
-  {
-    name: "Screen Share Availability SRequest",
-    template: `\nCould you please share your feasible timings for a screenshare to get more details on the configuration. I will send the invite post confirmation.`,
-  },
-  {
-    name: "Act of God",
-    template: `As the problem has been resolved through cache clearance, we will be closing the INC by the end of the day.`,
-  },
-  {
-    name: "Empty Template",
-    template: `\n`,
-  },
-  {
-    name: "No Queries",
-    template: `If no further queries we will resolve the INC`,
-  },
+  }
 ]
 const buttonNames = [
   "Severity",
