@@ -7,20 +7,43 @@ The **incTool** is a versatile Chrome extension that streamlines INC management,
 2. and then Click on the Download Raw file button 
 
 ## Installing and Running the Application
+method -1:
 ```
-1. Extract the contents of the source folder 
+1. Open Command Prompt
 
-2. Navigate to the page for Chrome extensions in Chrome Browser Window. 
+2. Run the comman 'git clone https://github.com/kadiyamshivaji/incTool.git'
+
+3. Navigate to the page for Chrome extensions in Chrome Browser Window. 
 
 3. Press the "Load unpacked" button. 
 
-4. Locate and select the incTool  source folder within the incTool folder. 
+4. Locate and select the incTool folder. 
 
 5. Select the extension button from the Chrome Browser Window. 
 
 6. Pin the incTool extension from the list of extensions. 
 
 7. After refreshing the Interaction Portal tab, the active Pega icon will be visible.
+```
+method -2
+```
+1. Click on the incTool.zip file
+
+2. and then Click on the Download Raw file button
+
+3. Extract the contents of the source folder 
+
+4. Navigate to the page for Chrome extensions in Chrome Browser Window. 
+
+5. Press the "Load unpacked" button. 
+
+6. Locate and select the incTool  source folder within the incTool folder. 
+
+7. Select the extension button from the Chrome Browser Window. 
+
+8. Pin the incTool extension from the list of extensions. 
+
+9. After refreshing the Interaction Portal tab, the active Pega icon will be visible.
 ```
 ## Usage
 
