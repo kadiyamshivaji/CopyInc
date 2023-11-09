@@ -30,6 +30,10 @@ function populateInstanceTable() {
 
 // Event listener for the "Add New Row" button
 document.querySelector("#add-instance").addEventListener("click", () => {
+  document.querySelector("#version").value = ""
+  document.querySelector("#url").value = ""
+  document.querySelector("#username").value = ""
+  document.querySelector("#password").value = ""
   $("#instanceModal").modal("show")
 })
 
@@ -77,7 +81,7 @@ document.querySelector("#update-instance").addEventListener("click", () => {
     }
     instances.push(newInstance)
   }
-  const sortedInstanes = sortInstances(instances);
+  const sortedInstanes = sortInstances(instances)
   chrome.storage.sync.set({ instances: sortedInstanes })
   populateInstanceTable()
   $("#instanceModal").modal("hide")

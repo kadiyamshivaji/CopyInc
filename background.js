@@ -97,18 +97,7 @@ const buttonNames = [
   "SME",
 ]
 const instances = [
-  {
-    version: "8.6.5",
-    url: "https://10.60.215.144:8443/prweb",
-    username: "kadis1",
-    password: "rules",
-  },
-  {
-    version: "8.8.3",
-    url: "https://lab0792.lab.pega.com/prweb",
-    username: "kadis1",
-    password: "rules",
-  },
+  
 ]
 chrome.runtime.onInstalled.addListener(function (details) {
   if (details.reason === "install") {

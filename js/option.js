@@ -146,15 +146,9 @@ function populateTable() {
 
 // Event listener for the "Add New Row" button
 document.querySelector("#add-row").addEventListener("click", () => {
+  document.querySelector("#update-name").value = ""
+  document.querySelector("#update-content").value =""
   $("#exampleModal").modal("show")
-  // const name = "sample name"
-  // const template = "sample content"
-
-  // if (name && template) {
-  //   notes.push({ name, template })
-  //   chrome.storage.sync.set({ notes: notes })
-  //   populateTable()
-  // }
 })
 
 // Event listener for update button
