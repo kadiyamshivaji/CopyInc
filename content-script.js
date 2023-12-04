@@ -165,7 +165,7 @@ attenedEngineers =`${gcsEngineer},${sme}[Pega]`
     let customNotes =
       `<p>Hello ${primaryContact},</p>` +
       `<p>Thank you for your time in the meeting.</p>` +
-      `<p><b>Attendees: </b> ${primaryContact}(Client) and ${attenedEngineers}</p>` +
+      `<p><b>Attendees: </b> ${primaryContact}[Client] and ${attenedEngineers}</p>` +
       `<p><b>Call Purpose: </b> To discuss details about the issue</p>` +
       `<p><b>Minutes of meeting:</b></p>` +
       `<p><b>GCS Next actions:</b></p>` +
