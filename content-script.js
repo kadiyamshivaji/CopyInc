@@ -154,11 +154,11 @@ const promoteMom =(inc,template) =>{
       "content-item content-field item-1 remove-top-spacing remove-left-spacing remove-bottom-spacing remove-right-spacing   margin-r-2x link-format-text dataValueRead flex flex-row"
     );
     let gcsEngineer =engineerList[0].children[0].children[0].textContent;
-    let attenedEngineers = `${gcsEngineer}(Pega)`
+    let attenedEngineers = `${gcsEngineer}[Pega]`
     let sme =""
     if(engineerList.length>1){
 sme=engineerList[1].children[0].children[0].textContent;
-attenedEngineers =`${gcsEngineer}(Pega) and ${sme}(Pega)`
+attenedEngineers =`${gcsEngineer},${sme}[Pega]`
     }
     
     console.log('****',sme)

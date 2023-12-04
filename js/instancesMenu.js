@@ -13,7 +13,7 @@ chrome.storage.sync.get("instances", function (data) {
 /**  Login to instance */
 
 function openLoginPage(instance) {
-  const loginPageUrl = instance.url //"https://lab0792.lab.pega.com/prweb"
+  const loginPageUrl = instance.url 
 
   chrome.tabs.create({ url: loginPageUrl }, function (tab) {
     // Replace 'your_username' and 'your_password' with your actual credentials.

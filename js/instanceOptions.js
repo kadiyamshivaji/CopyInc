@@ -118,11 +118,7 @@ function copyToClipboard(text) {
   textarea.select()
 
   try {
-    const successful = document.execCommand("copy")
-    const msg = successful
-      ? "Text copied to clipboard!"
-      : "Unable to copy text to clipboard"
-    console.log(msg)
+    document.execCommand("copy")
   } catch (err) {
     console.error("Error copying text:", err)
   }
