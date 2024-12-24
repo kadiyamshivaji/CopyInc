@@ -87,6 +87,14 @@ const getPlatfromversion = (inc) => {
     return tempList[tempList.length - 2].children[0].children[1].textContent
   } catch (e) {}
 }
+const getOwner = (inc) => {
+  const dom = document.querySelector("iframe[title=" + inc + "]").contentWindow
+    .document
+  const engineerList = dom.getElementsByClassName(
+    "content-item content-field item-1 remove-top-spacing remove-left-spacing remove-bottom-spacing remove-right-spacing   margin-r-2x link-format-text dataValueRead flex flex-row"
+  )
+  return engineerList[0].children[0].children[0].textContent
+}
 const isSmeAvailable = (inc) => {
   try {
     const pegaContacts = document
@@ -97,7 +105,7 @@ const isSmeAvailable = (inc) => {
     return pegaContacts.length > 1 ? `SME-YES` : `SME-NO`
   } catch (e) {}
 }
-const promteNote = (inc, template) => {
+const promoteNote = (inc, template) => {
   try {
     const dom = document.querySelector("iframe[title=" + inc + "]")
       .contentWindow.document
@@ -142,8 +150,7 @@ const promteNote = (inc, template) => {
     alert("Please open the editor")
   }
 }
-const promoteMom =(inc,template) =>{
-
+const promoteMom = (inc, template) => {
   try {
     const dom = document.querySelector("iframe[title=" + inc + "]")
       .contentWindow.document
@@ -152,16 +159,16 @@ const promoteMom =(inc,template) =>{
 
     const engineerList = dom.getElementsByClassName(
       "content-item content-field item-1 remove-top-spacing remove-left-spacing remove-bottom-spacing remove-right-spacing   margin-r-2x link-format-text dataValueRead flex flex-row"
-    );
-    let gcsEngineer =engineerList[0].children[0].children[0].textContent;
+    )
+    let gcsEngineer = engineerList[0].children[0].children[0].textContent
     let attenedEngineers = `${gcsEngineer}[Pega]`
-    let sme =""
-    if(engineerList.length>1){
-sme=engineerList[1].children[0].children[0].textContent;
-attenedEngineers =`${gcsEngineer},${sme}[Pega]`
+    let sme = ""
+    if (engineerList.length > 1) {
+      sme = engineerList[1].children[0].children[0].textContent
+      attenedEngineers = `${gcsEngineer},${sme}[Pega]`
     }
-    
-    console.log('****',sme)
+
+    console.log("****", sme)
     let customNotes =
       `<p>Hello ${primaryContact},</p>` +
       `<p>Thank you for your time in the meeting.</p>` +
@@ -177,7 +184,6 @@ attenedEngineers =`${gcsEngineer},${sme}[Pega]`
         .querySelectorAll("iframe")[0]
         .contentDocument.getElementsByClassName(
           "cke_editable cke_editable_themed cke_contents_ltr"
-          
         )
       if (editor.length > 0) {
         editor[0].children[0].innerHTML = customNotes
@@ -191,7 +197,7 @@ attenedEngineers =`${gcsEngineer},${sme}[Pega]`
           commentBox.value += `Thank you for your time in the meeting.`
           commentBox.value += "\n"
           commentBox.value += `<b>Attendees</b>:Ranjitha(Client),Rohit(Client),Srinivas(client),Piotr(Pega Engineer), Rahul(Pega Engineer) and Santosh(Pega Engineer). `
-         
+
           commentBox.value += `Regards, ${gcsEngineer}.`
         } catch (e) {
           console.log("******Comment Scenario", e)
@@ -226,81 +232,60 @@ function copyToClipboard(text) {
 chrome.runtime.sendMessage({ text: "add icon" }, (tabId) => {
   activeTabId = tabId
 })
-
-chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+const storeAssignmentDetails = async (incNum) => {
   try {
-    if (message.action === "inc") {
-      incNum = getIncNumber()
-      copyToClipboard(incNum)
-    }
-    if (message.action === "inc+severity") {
-      incNum = getIncNumber()
-      let severity = getSeverity(incNum).split("-")[0]
-      let classificationType = getSeverity(incNum).split("-")[1]
+    const { assignments = [] } = await chrome.storage.sync.get("assignments")
 
-      const fts = getFTS(incNum)
+    if (!assignments.some((item) => item.IncidentNumber === incNum)) {
+      const options = ["IncidentNumber", "Severity", "Owner"]
+      const incDetails = options.reduce((details, item) => {
+        const res = mapOptions.find((opt) => opt.option === item).func(incNum)
+        return { ...details, [item]: res }
+      }, {})
 
-      if (fts === "") {
-        severityAndType =
-          severity !== "Sev3" ? `${severity}-${classificationType}` : severity
-      } else {
-        severityAndType = `${severity}-${classificationType}`
-      }
-      copyToClipboard(`${incNum}(${severityAndType}${fts})`)
+      assignments.push(incDetails)
+      await chrome.storage.sync.set({ assignments })
     }
-    if (message.action === "inc+severity+desc") {
-      incNum = getIncNumber()
-      const description = getDescription(incNum)
-      let severity = getSeverity(incNum).split("-")[0]
-      let classificationType = getSeverity(incNum).split("-")[1]
-      copyToClipboard(
-        `${incNum} || ${severity}-${classificationType} || ${description}`
-      )
-    }
-    if (message.action === "customOptions") {
-      incNum = getIncNumber()
-      const defaultOptions = [
-        "Severity",
-        "Description",
-        "AccountName",
-        "WFI",
-        "FTS",
-        "Priority",
-        "Platform",
-        "SME",
-      ]
-      let options = []
-      chrome.storage.sync.get("optionKey", function (data) {
-        debugger
-        options =
-          (Object.keys(data).length > 0 && data.optionKey.split(",")) ||
-          defaultOptions
-        let result = ""
-        options.map((item) => {
-          const tempResult = mapOptions
-            .filter((opt) => opt.option === item)[0]
-            .func(incNum)
+  } catch (error) {
+    console.error("Error storing assignment details:", error)
+  }
+}
+const storePriorityIncs = async (incNum) => {
+  try {
+    const { priority = [] } = await chrome.storage.sync.get("priority")
 
-          if (result) {
-            result = tempResult ? result + ` || ${tempResult}` : result
-          } else {
-            result = tempResult
-          }
-        })
-        copyToClipboard(`${incNum} || ${result}`)
-      })
-    }
-    if (message.action === "note") {
-      incNum = getIncNumber()
-      if (message.name === "MOM") {
-        promoteMom(incNum, message.template)
-      } else {
-        promteNote(incNum, message.template)
-      }
-    }
-  } catch (e) {}
-})
+    if (!priority.some((item) => item.IncidentNumber === incNum)) {
+      const options = ["IncidentNumber", "Description", "Owner", "AccountName"]
+      const incDetails = options.reduce((details, item) => {
+        const res = mapOptions.find((opt) => opt.option === item).func(incNum)
+        return { ...details, [item]: res }
+      }, {})
 
+      priority.push(incDetails)
+      await chrome.storage.sync.set({ priority })
+    }
+  } catch (error) {
+    console.error("Error storing priority INC details:", error)
+  }
+}
+const storeFavoriteIncs = async (incNum) => {
+  try {
+    const { favorites = [] } = await chrome.storage.sync.get("favorites")
+
+    if (!favorites.some((item) => item.IncidentNumber === incNum)) {
+      const options = ["IncidentNumber", "Description", "Owner", "AccountName"]
+      const incDetails = options.reduce((details, item) => {
+        const res = mapOptions.find((opt) => opt.option === item).func(incNum)
+        return { ...details, [item]: res }
+      }, {})
+
+      favorites.push(incDetails)
+      await chrome.storage.sync.set({ favorites })
+    }
+  } catch (error) {
+    console.error("Error storing favorites INC details:", error)
+  }
+}
 const mapOptions = [
   {
     option: "IncidentNumber",
@@ -338,4 +323,106 @@ const mapOptions = [
     option: "SME",
     func: isSmeAvailable,
   },
+  {
+    option: "Owner",
+    func: getOwner,
+  },
 ]
+
+chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+  try {
+    debugger
+    const incNum = getIncNumber()
+
+    switch (message.action) {
+      case "inc":
+        copyToClipboard(incNum)
+        break
+
+      case "inc+severity":
+        handleIncSeverity(incNum)
+        break
+
+      case "inc+severity+desc":
+        handleIncSeverityDesc(incNum)
+        break
+
+      case "customOptions":
+        handleCustomOptions(incNum)
+        break
+
+      case "note":
+        handleNoteAction(incNum, message.name, message.template)
+        break
+
+      case "assignments":
+        storeAssignmentDetails(incNum)
+        break
+      case "priority":
+        storePriorityIncs(incNum)
+        break
+      case "favorites":
+        storeFavoriteIncs(incNum)
+        break
+      default:
+        console.error("Unknown action:", message.action)
+    }
+  } catch (e) {
+    console.error("Error handling message:", e)
+  }
+})
+
+const handleIncSeverity = (incNum) => {
+  const severity = getSeverity(incNum).split("-")[0]
+  const classificationType = getSeverity(incNum).split("-")[1]
+  const fts = getFTS(incNum)
+  const severityAndType =
+    fts === "" && severity === "Sev3"
+      ? severity
+      : `${severity}-${classificationType}`
+
+  copyToClipboard(`${incNum}(${severityAndType}${fts})`)
+}
+
+const handleIncSeverityDesc = (incNum) => {
+  const severity = getSeverity(incNum).split("-")[0]
+  const classificationType = getSeverity(incNum).split("-")[1]
+  const description = getDescription(incNum)
+  copyToClipboard(
+    `${incNum} || ${severity}-${classificationType} || ${description}`
+  )
+}
+
+const handleCustomOptions = (incNum) => {
+  const defaultOptions = [
+    "Severity",
+    "Description",
+    "AccountName",
+    "WFI",
+    "FTS",
+    "Priority",
+    "Platform",
+    "SME",
+  ]
+
+  chrome.storage.sync.get("optionKey", (data) => {
+    const options = data.optionKey ? data.optionKey.split(",") : defaultOptions
+    const result = options
+      .map((item) => {
+        const option = mapOptions.find((opt) => opt.option === item)
+        return option ? option.func(incNum) : null
+      })
+      .filter(Boolean)
+      .join(" || ")
+
+    copyToClipboard(`${incNum} || ${result}`)
+  })
+}
+
+const handleNoteAction = (incNum, name, template) => {
+  if (name === "MOM") {
+    promoteMom(incNum, template)
+  } else {
+    promoteNote(incNum, template)
+  }
+}

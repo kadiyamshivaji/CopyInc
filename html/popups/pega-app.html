@@ -1,7 +1,12 @@
 <head>
   <link rel="stylesheet" href="../../assets/bootstrap-5.3.1-dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
-  </link>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
+  </link> -->
+  <link href="../../assets/fontawesome/css/fontawesome.css" rel="stylesheet">
+  <link href="../../assets/fontawesome/css/brands.css" rel="stylesheet">
+  <link href="../../assets/fontawesome/css/solid.css" rel="stylesheet">
+  <link href="../../assets/fontawesome/css/regular.css" rel="stylesheet">
+
 </head>
 <style>
   html,
@@ -83,12 +88,47 @@
     width: 100%;
     text-align: left;
   }
+  /* Basic styles for the icon */
+.icon {
+    display: inline-block;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+/* Click animation */
+@keyframes click-animation {
+    0% {
+        transform: scale(1);
+        color: #000;
+    }
+    50% {
+        transform: scale(1.2);
+        color: #f00;
+    }
+    100% {
+        transform: scale(1);
+        color: #000;
+    }
+}
+
+/* Applying the click animation */
+.icon:active {
+    animation: click-animation 0.2s ease-in-out;
+}
 </style>
 
 <a href="https://github.com/kadiyamshivaji/CopyInc" target="https://github.com/kadiyamshivaji/CopyInc">incTool</a>
 <hr>
 </hr>
 <div class="d-grid gap-2 ">
+  <div style='display:flex;justify-content: space-around;' > 
+  <i class="fa-regular fa-plus icon" title="Add to the assignments" id="assignments"></i>
+  <i class="fa-regular fa-star icon" title="Priority" id="priority"></i>
+  <i class="fa-regular fa-heart icon" title="Favorites" id="favorites"></i>
+  
+</div>
+<hr>
+</hr>
   <div class="dropdown" id="inc">
     <button type="button" class="btn btn-secondary myButton">
       Inc
@@ -128,5 +168,9 @@
 <br>
 <script src="/js/menu.js"></script>
 <script src="/js/instancesMenu.js"></script>
+<script src="/js/menu/addAssignments.js"></script>
+<script src="/js/menu/addFavorites.js"></script>
+<script src="/js/menu/addPriority.js"></script>
+
 <script src="../../assets/jQuery/jquery.js"></script>
 <script src="../../assets/bootstrap-5.3.1-dist/js/bootstrap.bundle.min.js"></script>
